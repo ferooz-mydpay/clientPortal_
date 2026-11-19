@@ -8,7 +8,6 @@ import {
   Calendar, 
   CreditCard, 
   DollarSign, 
-  ShieldCheck, 
   Folder, 
   Phone, 
   Mail, 
@@ -20,8 +19,6 @@ import {
   AlertCircle,
   Briefcase,
   FileCheck,
-  Plane,
-  Building,
   Plus,
   RotateCw,
   BarChart3,
@@ -52,10 +49,6 @@ export const EmployeeDetailView = ({ employee, onBack, t, language }) => {
 
   const tabs = [
     { id: 'general', label: isRtl ? 'عام' : 'General' },
-    { id: 'muqeem', label: isRtl ? 'بيانات مقيم' : 'Muqeem Data' },
-    { id: 'licences', label: isRtl ? 'بيانات الرخص والتصاريح' : 'Licences Data' },
-    { id: 'project', label: isRtl ? 'بيانات المشروع' : 'Project Data' },
-    { id: 'exit', label: isRtl ? 'طلب الخروج النهائي' : 'Final Exit Request' },
     { id: 'leaves', label: isRtl ? 'طلبات الإجازة' : 'Leave Requests' },
     { id: 'contracts', label: isRtl ? 'طلبات تجديد العقد' : 'Contract Renewal Requests' },
     { id: 'files', label: isRtl ? 'الملفات والمستندات' : 'Files' },
@@ -524,137 +517,7 @@ export const EmployeeDetailView = ({ employee, onBack, t, language }) => {
           </div>
         )}
 
-        {/* ===================== TAB 2: MUQEEM DATA ===================== */}
-        {activeTab === 'muqeem' && (
-          <div className="space-y-6 animate-in fade-in duration-150 text-xs">
-            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <CreditCard className="w-4 h-4 text-[#00a3e0]" />
-              <span>{isRtl ? 'بيانات الجوازات والإقامة (مقيم)' : 'Muqeem & Identity Records'}</span>
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'رقم الإقامة / الهوية' : 'Iqama / SID Number'}</span>
-                <span className="font-mono font-bold text-slate-900 text-sm">{employee.iqamaNo}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'تاريخ انتهاء الإقامة' : 'Iqama Expiry Date'}</span>
-                <span className="font-semibold text-slate-800">{employee.iqamaExpiry}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'رقم الحدود' : 'Border Number'}</span>
-                <span className="font-mono font-bold text-slate-900 text-sm">{employee.borderNo}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'رقم جواز السفر' : 'Passport Number'}</span>
-                <span className="font-mono font-bold text-slate-900 text-sm">{employee.passportNo}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'تاريخ انتهاء الجواز' : 'Passport Expiry Date'}</span>
-                <span className="font-semibold text-slate-800">{employee.passportExpiry}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'حالة مقيم' : 'Muqeem Status'}</span>
-                <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[11px]">
-                  Active & Inside KSA
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ===================== TAB 3: LICENCES DATA ===================== */}
-        {activeTab === 'licences' && (
-          <div className="space-y-6 animate-in fade-in duration-150 text-xs">
-            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#00a3e0]" />
-              <span>{isRtl ? 'بيانات التراخيص والتأمين الطبي' : 'Licenses & Compliance'}</span>
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                <span className="text-slate-400 block mb-1 font-medium">{isRtl ? 'التأمين الطبي' : 'Medical Insurance'}</span>
-                <span className="font-bold text-slate-900 text-sm block">CCHI Valid</span>
-                <span className="text-emerald-600 font-semibold text-[11px] mt-1 block">● Active Policy</span>
-              </div>
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                <span className="text-slate-400 block mb-1 font-medium">{isRtl ? 'رخصة العمل' : 'Work Permit'}</span>
-                <span className="font-bold text-slate-900 text-sm block">Qiwa Registered</span>
-                <span className="text-emerald-600 font-semibold text-[11px] mt-1 block">● Valid</span>
-              </div>
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                <span className="text-slate-400 block mb-1 font-medium">{isRtl ? 'رخصة القيادة السعودية' : 'Driving License'}</span>
-                <span className="font-bold text-slate-900 text-sm block">None</span>
-                <span className="text-slate-400 text-[11px] mt-1 block">Not Required</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ===================== TAB 4: PROJECT DATA ===================== */}
-        {activeTab === 'project' && (
-          <div className="space-y-6 animate-in fade-in duration-150 text-xs">
-            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Building className="w-4 h-4 text-[#00a3e0]" />
-              <span>{isRtl ? 'بيانات المشروع والتعاقد' : 'Project Assignment Details'}</span>
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'اسم المشروع' : 'Project Name'}</span>
-                <span className="font-bold text-slate-900">{employee.project}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'رقم العقد' : 'Contract ID'}</span>
-                <span className="font-mono font-bold text-indigo-700">{employee.contractId}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'اسم العميل / الحساب' : 'Client Account'}</span>
-                <span className="font-semibold text-slate-900">{employee.account}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'تاريخ بداية العقد' : 'Date of Joining'}</span>
-                <span className="font-semibold text-slate-800">{employee.dateOfJoining}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'تاريخ انتهاء العقد' : 'Contract Expiry'}</span>
-                <span className="font-semibold text-slate-800">{employee.contractExpiry}</span>
-              </div>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                <span className="text-slate-500 font-medium">{isRtl ? 'مشرف المشروع' : 'Project Supervisor'}</span>
-                <span className="font-semibold text-slate-800">Ali Gadalla</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ===================== TAB 5: FINAL EXIT ===================== */}
-        {activeTab === 'exit' && (
-          <div className="space-y-6 animate-in fade-in duration-150 text-xs">
-            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Plane className="w-4 h-4 text-amber-600" />
-              <span>{isRtl ? 'تفاصيل الخروج النهائي' : 'Final Exit Status'}</span>
-            </h2>
-
-            <div className="bg-amber-50/80 border border-amber-200 rounded-xl p-5 space-y-3">
-              <div className="flex items-center gap-2 text-amber-900 font-bold text-sm">
-                <AlertCircle className="w-4 h-4 text-amber-600" />
-                <span>{isRtl ? 'طلب خروج نهائي قيد الإجراءات' : 'Final Exit Process Pending'}</span>
-              </div>
-              <p className="text-slate-600 leading-relaxed text-xs">
-                {isRtl 
-                  ? 'تم تسجيل طلب خروج نهائي لهذا الموظف وهو قيد المعالجة الإدارية والتسوية المالية لدى الموارد البشرية لجسور الإمداد.' 
-                  : 'A final exit request has been logged for this employee. The case is currently undergoing administrative verification and financial settlement with Jussur Emdad HR.'}
-              </p>
-              <div className="pt-2 flex items-center gap-3">
-                <span className="text-slate-500 font-medium">Status:</span>
-                <span className="font-bold text-amber-800">In Progress with Jawazat</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ===================== TAB 6: LEAVE REQUESTS ===================== */}
+        {/* ===================== TAB: LEAVE REQUESTS ===================== */}
         {activeTab === 'leaves' && (
           <div className="space-y-4 animate-in fade-in duration-150">
             {/* Toolbar */}
