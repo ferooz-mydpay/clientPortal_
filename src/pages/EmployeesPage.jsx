@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { EmployeeDetailView } from './EmployeeDetailView';
-
 import { 
   Search, 
   ArrowUpDown, 
@@ -8,15 +7,23 @@ import {
   Check, 
   X,
   User,
-  ExternalLink
+  ExternalLink,
+  Users,
+  Shield,
+  Building2,
+  Calendar,
+  Phone,
+  FileCheck2,
+  Globe
 } from 'lucide-react';
 
 export const EmployeesPage = ({ t, language, toggleLanguage }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [activeEmployeeDetail, setActiveEmployeeDetail] = useState(null);
+  const isRtl = language === 'ar';
 
-  // Initial employees dataset matching Screenshot 2
+  // Initial employees dataset
   const [employeesData] = useState([
     {
       id: '1',
@@ -349,65 +356,101 @@ export const EmployeesPage = ({ t, language, toggleLanguage }) => {
   }
 
   return (
-    <div className="space-y-4 animate-in fade-in duration-200">
-      {/* Top Controls Toolbar */}
-      <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3 shadow-xs">
+    <div className="space-y-6 animate-in fade-in duration-200">
+      {/* 1. Header Banner */}
+      <div className="relative rounded-3xl p-6 sm:p-8 text-white shadow-xl overflow-hidden border border-slate-800/80 bg-gradient-to-br from-[#090d16] via-[#0f172a] to-[#1e1b4b]">
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute inset-0 bg-dot-pattern-dark opacity-40 pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              <span>Ministry of Labor & Muqeem Synchronized</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+              {isRtl ? 'سجل القوى العاملة والموظفين' : 'Workforce & Employees Directory'}
+            </h1>
+            <p className="text-slate-300 text-xs sm:text-sm font-normal leading-relaxed">
+              {isRtl
+                ? 'إدارة شاملة للموظفين المعينين، الإقامات، العقود، والبيانات الرسمية'
+                : 'Comprehensive dossier of assigned personnel, Iqama validity, contracts, and legal status'}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 self-start sm:self-center">
+            <button
+              onClick={toggleLanguage}
+              className="group relative overflow-hidden bg-white/10 hover:bg-white/20 active:scale-95 border border-white/20 backdrop-blur-md text-white font-bold px-4 py-2.5 rounded-2xl text-sm shadow-lg transition-all flex items-center gap-2 cursor-pointer select-none"
+              title={language === 'en' ? 'التحويل إلى اللغة العربية' : 'Switch to English'}
+            >
+              <Globe className="w-4 h-4 text-cyan-300" />
+              <span className={language === 'en' ? 'font-arabic text-sm' : 'font-sans'}>
+                {t.langButtonText}
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Top Controls Toolbar */}
+      <div className="bg-white border border-slate-200/90 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
         {/* Quick Search */}
-        <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-slate-400 absolute ltr:left-3 rtl:right-3 top-1/2 -translate-y-1/2" />
+        <div className="relative w-full sm:w-80">
+          <Search className="w-4 h-4 text-slate-400 absolute ltr:left-3.5 rtl:right-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={language === 'ar' ? 'بحث عن موظف بالاسم أو الرقم...' : 'Search by name or number...'}
-            className="w-full bg-slate-50 border border-slate-200 rounded-lg ltr:pl-9 rtl:pr-9 pr-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
+            placeholder={language === 'ar' ? 'بحث عن موظف بالاسم أو الرقم أو الإقامة...' : 'Search by name, ID, or Iqama...'}
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl ltr:pl-10 rtl:pr-10 ltr:pr-4 rtl:pl-4 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 font-medium"
           />
+        </div>
+
+        <div className="flex items-center gap-2 text-xs text-slate-500">
+          <span className="font-bold text-slate-800">{filteredEmployees.length}</span>
+          <span>{isRtl ? 'موظف مسجل' : 'records found'}</span>
+          {selectedEmployees.length > 0 && (
+            <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-bold border border-indigo-200">
+              {selectedEmployees.length} selected
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Main Grid Card matching Screenshot 2 */}
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+      {/* 3. Main Data Table */}
+      <div className="bg-white border border-slate-200/90 rounded-3xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
         <div className="overflow-x-auto">
           <table className="w-full text-left rtl:text-right border-collapse text-[12px] whitespace-nowrap">
             <thead>
-              <tr className="bg-white border-b border-slate-200 text-slate-700 font-semibold select-none">
-                <th className="py-2.5 px-3 w-8">
+              <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-600 font-bold select-none text-[11px] uppercase tracking-wider">
+                <th className="py-3.5 px-3 w-8">
                   <input
                     type="checkbox"
                     checked={isAllSelected}
                     onChange={handleSelectAll}
-                    className="w-3.5 h-3.5 rounded text-[#00a3e0] focus:ring-[#00a3e0] border-slate-300 cursor-pointer"
+                    className="w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500 border-slate-300 cursor-pointer"
                   />
                 </th>
-                <th className="py-2.5 px-3 font-semibold">Employee N...</th>
-                <th className="py-2.5 px-3 font-semibold">
+                <th className="py-3.5 px-3 font-semibold">Employee No</th>
+                <th className="py-3.5 px-3 font-semibold">
                   <span className="flex items-center gap-1">
-                    Full Name <span className="text-slate-900">↑</span>
+                    Full Name <ArrowUpDown className="w-3 h-3 text-slate-400" />
                   </span>
                 </th>
-                <th className="py-2.5 px-3 font-semibold">
-                  <span className="flex items-center gap-1">Gender <ChevronDown className="w-3 h-3" /></span>
-                </th>
-                <th className="py-2.5 px-3 font-semibold">
-                  <span className="flex items-center gap-1">Employ... <ChevronDown className="w-3 h-3" /></span>
-                </th>
-                <th className="py-2.5 px-3 font-semibold">Mobile ...</th>
-                <th className="py-2.5 px-3 font-semibold">Contrac...</th>
-                <th className="py-2.5 px-3 font-semibold">Date of ...</th>
-                <th className="py-2.5 px-3 font-semibold">Project ...</th>
-                <th className="py-2.5 px-3 font-semibold">Nationa...</th>
-                <th className="py-2.5 px-3 font-semibold">Sales Pr...</th>
-                <th className="py-2.5 px-3 font-semibold">Iqama ...</th>
-                <th className="py-2.5 px-3 font-semibold">Iqama E...</th>
-                <th className="py-2.5 px-3 font-semibold">Border ...</th>
-                <th className="py-2.5 px-3 font-semibold">Passpor...</th>
-                <th className="py-2.5 px-3 font-semibold">Passpor...</th>
-                <th className="py-2.5 px-3 font-semibold">
-                  <span className="flex items-center gap-1">Project <ChevronDown className="w-3 h-3" /></span>
-                </th>
-                <th className="py-2.5 px-3 font-semibold">Contrac...</th>
-                <th className="py-2.5 px-3 font-semibold">Account...</th>
-                <th className="py-2.5 px-3 font-semibold">Owner (...)</th>
+                <th className="py-3.5 px-3 font-semibold">Gender</th>
+                <th className="py-3.5 px-3 font-semibold">Employment Sector</th>
+                <th className="py-3.5 px-3 font-semibold">Mobile</th>
+                <th className="py-3.5 px-3 font-semibold">Contract Expiry</th>
+                <th className="py-3.5 px-3 font-semibold">Date of Joining</th>
+                <th className="py-3.5 px-3 font-semibold">Nationality</th>
+                <th className="py-3.5 px-3 font-semibold">Profession</th>
+                <th className="py-3.5 px-3 font-semibold">Iqama No</th>
+                <th className="py-3.5 px-3 font-semibold">Iqama Expiry</th>
+                <th className="py-3.5 px-3 font-semibold">Passport No</th>
+                <th className="py-3.5 px-3 font-semibold">Contract Code</th>
+                <th className="py-3.5 px-3 font-semibold">Account</th>
+                <th className="py-3.5 px-3 font-semibold">Owner</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -416,72 +459,57 @@ export const EmployeesPage = ({ t, language, toggleLanguage }) => {
                 return (
                   <tr
                     key={emp.id}
-                    className={`hover:bg-slate-50/80 transition-colors ${
-                      isSelected ? 'bg-sky-50/50' : ''
+                    className={`hover:bg-slate-50/90 transition-colors ${
+                      isSelected ? 'bg-cyan-50/40' : ''
                     }`}
                   >
-                    <td className="py-2.5 px-3">
+                    <td className="py-3 px-3">
                       <input
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => handleSelectOne(emp.id)}
-                        className="w-3.5 h-3.5 rounded text-[#00a3e0] focus:ring-[#00a3e0] border-slate-300 cursor-pointer"
+                        className="w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500 border-slate-300 cursor-pointer"
                       />
                     </td>
-                    <td className="py-2.5 px-3 font-mono text-slate-800">
+                    <td className="py-3 px-3 font-mono font-bold text-slate-800">
                       <button
                         onClick={() => setActiveEmployeeDetail(emp)}
-                        className="hover:text-[#00a3e0] hover:underline cursor-pointer"
+                        className="hover:text-cyan-600 hover:underline cursor-pointer font-bold"
                       >
                         {emp.employeeNo}
                       </button>
                     </td>
-                    <td className="py-2.5 px-3 font-medium">
+                    <td className="py-3 px-3 font-bold text-slate-900">
                       <button
                         onClick={() => setActiveEmployeeDetail(emp)}
-                        className="text-[#00a3e0] hover:underline cursor-pointer font-medium"
+                        className="text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer font-bold flex items-center gap-1.5"
                       >
-                        {emp.fullName}
+                        <span>{emp.fullName}</span>
+                        <ExternalLink className="w-3 h-3 text-slate-400 inline" />
                       </button>
                     </td>
-                    <td className="py-2.5 px-3 text-slate-600">{emp.gender}</td>
-                    <td className="py-2.5 px-3">
-                      <span className="bg-[#e2e8f0] text-slate-700 px-2 py-0.5 rounded text-[11px] font-medium">
+                    <td className="py-3 px-3 text-slate-600">{emp.gender}</td>
+                    <td className="py-3 px-3">
+                      <span className="bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-slate-200">
                         {emp.employmentSector}
                       </span>
                     </td>
-                    <td className="py-2.5 px-3 font-mono text-slate-600">{emp.mobile}</td>
-                    <td className="py-2.5 px-3 text-slate-600">{emp.contractExpiry}</td>
-                    <td className="py-2.5 px-3 text-slate-600">{emp.dateOfJoining}</td>
-                    <td className="py-2.5 px-3 text-slate-600">{emp.projectDate}</td>
-                    <td className="py-2.5 px-3">
-                      <span className="text-[#00a3e0] hover:underline cursor-pointer">
-                        {emp.nationality}
-                      </span>
-                    </td>
-                    <td className="py-2.5 px-3">
-                      <span className="text-[#00a3e0] hover:underline cursor-pointer">
-                        {emp.profession}
-                      </span>
-                    </td>
-                    <td className="py-2.5 px-3 font-mono text-slate-600">{emp.iqamaNo}</td>
-                    <td className="py-2.5 px-3 text-slate-600">{emp.iqamaExpiry}</td>
-                    <td className="py-2.5 px-3 font-mono text-slate-600">{emp.borderNo}</td>
-                    <td className="py-2.5 px-3 font-mono text-slate-600">{emp.passportNo}</td>
-                    <td className="py-2.5 px-3 text-slate-600">{emp.passportExpiry}</td>
-                    <td className="py-2.5 px-3">
-                      <span className="text-[#00a3e0] hover:underline cursor-pointer">
-                        {emp.project}
-                      </span>
-                    </td>
-                    <td className="py-2.5 px-3 font-mono text-slate-600">{emp.contractId}</td>
-                    <td className="py-2.5 px-3 text-slate-600 truncate max-w-[120px]">{emp.account}</td>
-                    <td className="py-2.5 px-3">
+                    <td className="py-3 px-3 font-mono text-slate-600">{emp.mobile}</td>
+                    <td className="py-3 px-3 text-slate-600">{emp.contractExpiry}</td>
+                    <td className="py-3 px-3 text-slate-600">{emp.dateOfJoining}</td>
+                    <td className="py-3 px-3 font-medium text-slate-800">{emp.nationality}</td>
+                    <td className="py-3 px-3 font-medium text-slate-800">{emp.profession}</td>
+                    <td className="py-3 px-3 font-mono font-bold text-slate-700">{emp.iqamaNo}</td>
+                    <td className="py-3 px-3 text-slate-600">{emp.iqamaExpiry}</td>
+                    <td className="py-3 px-3 font-mono text-slate-600">{emp.passportNo}</td>
+                    <td className="py-3 px-3 font-mono font-bold text-indigo-600">{emp.contractId}</td>
+                    <td className="py-3 px-3 text-slate-600 truncate max-w-[150px]">{emp.account}</td>
+                    <td className="py-3 px-3">
                       <div className="flex items-center gap-1.5">
-                        <span className="w-5 h-5 rounded-full bg-teal-600 text-white text-[9px] font-bold flex items-center justify-center shrink-0">
+                        <span className="w-5 h-5 rounded-full bg-cyan-600 text-white text-[9px] font-bold flex items-center justify-center shrink-0">
                           {emp.owner.slice(0, 2).toUpperCase()}
                         </span>
-                        <span className="text-slate-700">{emp.owner}</span>
+                        <span className="text-slate-700 font-medium">{emp.owner}</span>
                       </div>
                     </td>
                   </tr>
@@ -491,18 +519,18 @@ export const EmployeesPage = ({ t, language, toggleLanguage }) => {
           </table>
         </div>
 
-        {/* Bottom Status bar matching Screenshot 2: "Rows: 36" */}
-        <div className="bg-slate-50/90 border-t border-slate-200 px-4 py-2 text-[12px] text-slate-600 flex items-center justify-between">
-          <div>
-            <span>Rows: 36</span>
+        {/* Bottom Status bar */}
+        <div className="bg-slate-50/90 border-t border-slate-200 px-5 py-3 text-[12px] text-slate-600 flex items-center justify-between">
+          <div className="font-medium">
+            <span>Showing {filteredEmployees.length} employees</span>
             {selectedEmployees.length > 0 && (
-              <span className="ltr:ml-3 rtl:mr-3 text-indigo-600 font-semibold">
+              <span className="ltr:ml-3 rtl:mr-3 text-cyan-700 font-bold">
                 ({selectedEmployees.length} selected)
               </span>
             )}
           </div>
-          <div className="text-slate-400 text-[11px]">
-            {language === 'ar' ? 'عرض السجلات النشطة' : 'Showing active records'}
+          <div className="text-slate-400 text-[11px] font-medium">
+            {language === 'ar' ? 'سجلات معتمدة ومحدثة' : 'Verified active workforce records'}
           </div>
         </div>
       </div>

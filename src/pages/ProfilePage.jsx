@@ -5,7 +5,15 @@ import {
   Mail, 
   ChevronDown, 
   User, 
-  AlertCircle 
+  AlertCircle,
+  Building2,
+  Phone,
+  Globe,
+  ShieldCheck,
+  Check,
+  ArrowRight,
+  ArrowLeft,
+  Camera
 } from 'lucide-react';
 
 export const ProfilePage = ({ t, language, onNavigateHome, onShowToast }) => {
@@ -25,6 +33,8 @@ export const ProfilePage = ({ t, language, onNavigateHome, onShowToast }) => {
     contactPhone: true,
     contactMail: true,
   });
+
+  const isRtl = language === 'ar';
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -48,12 +58,12 @@ export const ProfilePage = ({ t, language, onNavigateHome, onShowToast }) => {
   };
 
   return (
-    <div className="animate-in fade-in duration-200">
-      {/* Breadcrumbs matching Screenshot 2 */}
-      <nav className="flex items-center gap-2 text-[15px] mb-5">
+    <div className="animate-in fade-in duration-200 space-y-6">
+      {/* Breadcrumbs */}
+      <nav className="flex items-center gap-2 text-xs sm:text-sm font-semibold">
         <button 
           onClick={onNavigateHome}
-          className="text-[#00a3e0] hover:underline font-medium cursor-pointer"
+          className="text-cyan-600 hover:text-cyan-700 hover:underline cursor-pointer"
         >
           {t.breadcrumbHome || 'Home'}
         </button>
@@ -61,42 +71,64 @@ export const ProfilePage = ({ t, language, onNavigateHome, onShowToast }) => {
         <span className="text-slate-900 font-bold">{t.breadcrumbProfile || 'Profile'}</span>
       </nav>
 
-      {/* Main Title */}
-      <h1 className="text-3xl font-bold text-slate-900 tracking-tight mb-8">
-        {t.profileTitle || 'Profile'}
-      </h1>
+      {/* Main Title Banner */}
+      <div className="relative rounded-3xl p-6 sm:p-8 text-white shadow-xl overflow-hidden border border-slate-800/80 bg-gradient-to-br from-[#090d16] via-[#0f172a] to-[#1e1b4b]">
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute inset-0 bg-dot-pattern-dark opacity-40 pointer-events-none" />
+
+        <div className="relative z-10 flex items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-semibold">
+              <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Identity & Security Settings</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+              {t.profileTitle || 'Profile Management'}
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-300">
+              Manage your personal details, corporate credentials, and security preferences
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Avatar & Security Menu (4 cols) */}
         <div className="lg:col-span-4 space-y-5">
           {/* Avatar Card */}
-          <div className="bg-white rounded border border-slate-200 p-5 flex items-center gap-4 shadow-none">
-            <div className="w-[84px] h-[84px] bg-[#94a3b8] rounded flex items-center justify-center text-white shrink-0 overflow-hidden">
-              <svg 
-                className="w-16 h-16 text-white" 
-                fill="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-              </svg>
+          <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-[0_2px_12px_rgba(0,0,0,0.03)] flex items-center gap-4">
+            <div className="relative">
+              <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white text-2xl font-extrabold shrink-0 shadow-md">
+                {formData.firstName?.[0]?.toUpperCase()}{formData.lastName?.[0]?.toUpperCase()}
+              </div>
             </div>
             <div>
-              <div className="text-[17px] font-semibold text-slate-800">
+              <div className="text-base sm:text-lg font-extrabold text-slate-900 leading-tight">
                 {formData.firstName} {formData.lastName}
               </div>
+              <div className="text-xs text-slate-400 font-mono mt-0.5 truncate max-w-[170px]">
+                {formData.email}
+              </div>
+              <span className="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                Verified Account
+              </span>
             </div>
           </div>
 
           {/* Navigation / Security Card */}
-          <div className="bg-white rounded border border-slate-200 shadow-none overflow-hidden text-[14px]">
+          <div className="bg-white rounded-3xl border border-slate-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.03)] overflow-hidden text-sm">
             {/* Active Profile Item */}
-            <div className="px-4 py-3 bg-white border-b border-slate-200 font-medium text-slate-900 cursor-pointer">
-              {t.menuProfile || 'Profile'}
+            <div className="px-5 py-3.5 bg-indigo-50/60 border-b border-indigo-100 font-bold text-indigo-700 flex items-center justify-between">
+              <span className="flex items-center gap-2">
+                <User className="w-4 h-4 text-indigo-600" />
+                <span>{t.menuProfile || 'Profile Details'}</span>
+              </span>
+              <Check className="w-4 h-4 text-indigo-600" />
             </div>
 
             {/* Security Section Header */}
-            <div className="px-4 py-3 bg-white border-b border-slate-200 font-semibold text-slate-900 flex items-center gap-2">
-              <Lock className="w-4 h-4 text-slate-800" />
+            <div className="px-5 py-3 bg-slate-50 border-b border-slate-100 font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-2">
+              <Lock className="w-3.5 h-3.5 text-slate-400" />
               <span>{t.securitySectionTitle || 'Security'}</span>
             </div>
 
@@ -104,18 +136,19 @@ export const ProfilePage = ({ t, language, onNavigateHome, onShowToast }) => {
             <button 
               type="button"
               onClick={() => onShowToast && onShowToast(language === 'ar' ? 'نموذج تغيير كلمة المرور' : 'Change password modal')}
-              className="w-full text-left rtl:text-right px-6 py-2.5 text-slate-700 hover:bg-slate-50 border-b border-slate-200 transition-colors cursor-pointer"
+              className="w-full text-left rtl:text-right px-5 py-3 text-slate-700 hover:bg-slate-50 border-b border-slate-100 transition-colors cursor-pointer font-medium text-xs sm:text-sm flex items-center justify-between group"
             >
-              {t.menuChangePassword || 'Change Password'}
+              <span>{t.menuChangePassword || 'Change Password'}</span>
+              <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-600 rtl:rotate-180 transition-colors" />
             </button>
 
             <button 
               type="button"
               onClick={() => onShowToast && onShowToast(language === 'ar' ? 'نموذج تغيير البريد الإلكتروني' : 'Change email modal')}
-              className="w-full text-left rtl:text-right px-6 py-2.5 text-slate-700 hover:bg-slate-50 border-b border-slate-200 flex items-center justify-between transition-colors cursor-pointer"
+              className="w-full text-left rtl:text-right px-5 py-3 text-slate-700 hover:bg-slate-50 border-b border-slate-100 flex items-center justify-between transition-colors cursor-pointer font-medium text-xs sm:text-sm"
             >
               <span>{t.menuChangeEmail || 'Change Email'}</span>
-              <span className="w-4 h-4 rounded-full bg-black text-white text-[11px] font-bold flex items-center justify-center shrink-0">
+              <span className="w-4 h-4 rounded-full bg-amber-500 text-white text-[10px] font-bold flex items-center justify-center shrink-0">
                 !
               </span>
             </button>
@@ -123,45 +156,32 @@ export const ProfilePage = ({ t, language, onNavigateHome, onShowToast }) => {
             <button 
               type="button"
               onClick={() => onShowToast && onShowToast(language === 'ar' ? 'إدارة المصادقة الخارجية' : 'External authentication')}
-              className="w-full text-left rtl:text-right px-6 py-2.5 text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
+              className="w-full text-left rtl:text-right px-5 py-3 text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer font-medium text-xs sm:text-sm flex items-center justify-between group"
             >
-              {t.menuManageExternalAuth || 'Manage External Authentication'}
+              <span>{t.menuManageExternalAuth || 'Manage External Authentication'}</span>
+              <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-600 rtl:rotate-180 transition-colors" />
             </button>
           </div>
         </div>
 
         {/* Right Column: Information form (8 cols) */}
-        <div className="lg:col-span-8">
-          {/* Explanatory text matching Screenshot 2 */}
-          <div className="text-[14px] text-slate-800 leading-relaxed space-y-3.5 mb-6">
-            <p>{t.profileIntro1 || 'Please provide some information about yourself.'}</p>
+        <div className="lg:col-span-8 bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-9 shadow-[0_2px_12px_rgba(0,0,0,0.03)] space-y-6">
+          {/* Explanatory intro */}
+          <div className="text-xs sm:text-sm text-slate-600 leading-relaxed space-y-2 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+            <p className="font-semibold text-slate-800">{t.profileIntro1 || 'Please provide some information about yourself.'}</p>
             <p>
               {language === 'ar' ? (
-                <>سيتم عرض <strong className="font-bold text-slate-900">الاسم الأول</strong> و <strong className="font-bold text-slate-900">اسم العائلة</strong> الذي تقدمه إلى جانب أي تعليقات أو منشورات أو أفكار تقوم بها على الموقع.</>
+                <>سيتم عرض <strong className="font-bold text-slate-900">الاسم الأول</strong> و <strong className="font-bold text-slate-900">اسم العائلة</strong> إلى جانب تعليقاتك وطلباتك الرسمية.</>
               ) : (
-                <>The <strong className="font-bold text-slate-900">First Name</strong> and <strong className="font-bold text-slate-900">Last Name</strong> you provide will be displayed alongside any comments, forum posts, or ideas you make on the site.</>
-              )}
-            </p>
-            <p>
-              {language === 'ar' ? (
-                <>عنوان <strong className="font-bold text-slate-900">البريد الإلكتروني</strong> ورقم <strong className="font-bold text-slate-900">الهاتف</strong> مطلوبان ولكن لن يتم عرضهما على الموقع.</>
-              ) : (
-                <>The <strong className="font-bold text-slate-900">Email Address</strong> and <strong className="font-bold text-slate-900">Phone</strong> number are required but will not be displayed on the site.</>
-              )}
-            </p>
-            <p>
-              {language === 'ar' ? (
-                <>منظمتك <strong className="font-bold text-slate-900">مطلوبة</strong>، و <strong className="font-bold text-slate-900">المسمى الوظيفي</strong> اختياري. سيتم عرضهما مع تعليقاتك ومنشوراتك في المنتدى.</>
-              ) : (
-                <>Your <strong className="font-bold text-slate-900">Organization</strong> is required, and a <strong className="font-bold text-slate-900">Title</strong> is optional. They will be displayed with your comments and forum posts.</>
+                <>The <strong className="font-bold text-slate-900">First Name</strong> and <strong className="font-bold text-slate-900">Last Name</strong> you provide will be displayed alongside any official requests or notes on the portal.</>
               )}
             </p>
           </div>
 
-          {/* Cyan Alert Box matching Screenshot 2 */}
-          <div className="bg-[#dcf3f8] border border-[#b2e5ef] rounded p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
-            <div className="flex items-center gap-2.5 text-[14px] text-[#006064] font-medium">
-              <span className="w-5 h-5 rounded-full bg-[#00838f] text-white flex items-center justify-center text-xs font-bold shrink-0">
+          {/* Email Confirmation Alert */}
+          <div className="bg-gradient-to-r from-cyan-50 to-sky-50 border border-cyan-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+            <div className="flex items-center gap-3 text-xs sm:text-sm text-cyan-950 font-medium">
+              <span className="w-6 h-6 rounded-full bg-cyan-600 text-white flex items-center justify-center text-xs font-bold shrink-0">
                 i
               </span>
               <span>{t.emailRequiresConfirmation || 'Your email requires confirmation.'}</span>
@@ -169,7 +189,7 @@ export const ProfilePage = ({ t, language, onNavigateHome, onShowToast }) => {
             <button
               type="button"
               onClick={handleConfirmEmail}
-              className="bg-[#2f677d] hover:bg-[#255263] text-white text-xs font-semibold px-3.5 py-1.5 rounded flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm shrink-0"
+              className="bg-cyan-700 hover:bg-cyan-800 active:scale-95 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shadow-sm shrink-0"
             >
               <Mail className="w-3.5 h-3.5" />
               <span>{t.btnConfirmEmail || 'Confirm Email'}</span>
@@ -178,17 +198,17 @@ export const ProfilePage = ({ t, language, onNavigateHome, onShowToast }) => {
 
           {/* Form */}
           <form onSubmit={handleUpdate} className="space-y-6">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">
+            <h2 className="text-lg font-extrabold text-slate-900 pb-2 border-b border-slate-100">
               {t.yourInformationTitle || 'Your Information'}
             </h2>
 
-            {/* Grid of Inputs matching Screenshots 2 & 3 */}
+            {/* Grid of Inputs */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* First Name * */}
+              {/* First Name */}
               <div>
-                <label className="block text-sm font-bold text-slate-900 mb-1.5">
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">
                   {language === 'ar' ? 'الاسم الأول' : 'First Name'}{' '}
-                  <span className="text-red-500 font-bold">*</span>
+                  <span className="text-rose-500 font-bold">*</span>
                 </label>
                 <input
                   type="text"
@@ -196,15 +216,15 @@ export const ProfilePage = ({ t, language, onNavigateHome, onShowToast }) => {
                   value={formData.firstName}
                   onChange={handleChange}
                   required
-                  className="w-full bg-white border border-slate-300 rounded px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:bg-white transition-all font-medium"
                 />
               </div>
 
-              {/* Last Name * */}
+              {/* Last Name */}
               <div>
-                <label className="block text-sm font-bold text-slate-900 mb-1.5">
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">
                   {language === 'ar' ? 'اسم العائلة' : 'Last Name'}{' '}
-                  <span className="text-red-500 font-bold">*</span>
+                  <span className="text-rose-500 font-bold">*</span>
                 </label>
                 <input
                   type="text"
@@ -212,203 +232,80 @@ export const ProfilePage = ({ t, language, onNavigateHome, onShowToast }) => {
                   value={formData.lastName}
                   onChange={handleChange}
                   required
-                  className="w-full bg-white border border-slate-300 rounded px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:bg-white transition-all font-medium"
                 />
               </div>
 
-              {/* E-mail */}
+              {/* Email */}
               <div>
-                <label className="block text-sm font-bold text-slate-900 mb-1.5">
-                  {language === 'ar' ? 'البريد الإلكتروني' : 'E-mail'}
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">
+                  {language === 'ar' ? 'البريد الإلكتروني' : 'Email'}{' '}
+                  <span className="text-rose-500 font-bold">*</span>
                 </label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full bg-white border border-slate-300 rounded px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
+                  required
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:bg-white transition-all font-medium font-mono"
                 />
               </div>
 
-              {/* Business Phone * */}
+              {/* Business Phone */}
               <div>
-                <label className="block text-sm font-bold text-slate-900 mb-1.5">
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">
                   {language === 'ar' ? 'هاتف العمل' : 'Business Phone'}{' '}
-                  <span className="text-red-500 font-bold">*</span>
+                  <span className="text-rose-500 font-bold">*</span>
                 </label>
                 <input
                   type="tel"
                   name="businessPhone"
                   value={formData.businessPhone}
                   onChange={handleChange}
-                  required
-                  className="w-full bg-white border border-slate-300 rounded px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:bg-white transition-all font-medium font-mono"
                 />
               </div>
 
               {/* Organization Name */}
               <div>
-                <label className="block text-sm font-bold text-slate-900 mb-1.5">
-                  {language === 'ar' ? 'اسم المنظمة' : 'Organization Name'}
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">
+                  {language === 'ar' ? 'اسم المنظمة / الشركة' : 'Organization Name'}{' '}
+                  <span className="text-rose-500 font-bold">*</span>
                 </label>
                 <input
                   type="text"
                   name="organizationName"
                   value={formData.organizationName}
                   onChange={handleChange}
-                  className="w-full bg-white border border-slate-300 rounded px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
+                  placeholder="e.g. National Marketing Company Ltd."
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:bg-white transition-all font-medium"
                 />
               </div>
 
               {/* Title */}
               <div>
-                <label className="block text-sm font-bold text-slate-900 mb-1.5">
-                  {language === 'ar' ? 'المسمى الوظيفي' : 'Title'}
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">
+                  {language === 'ar' ? 'المسمى الوظيفي' : 'Job Title'}
                 </label>
                 <input
                   type="text"
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
-                  className="w-full bg-white border border-slate-300 rounded px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
-                />
-              </div>
-
-              {/* Nickname */}
-              <div>
-                <label className="block text-sm font-bold text-slate-900 mb-1.5">
-                  {language === 'ar' ? 'الاسم المستعار' : 'Nickname'}
-                </label>
-                <input
-                  type="text"
-                  name="nickname"
-                  value={formData.nickname}
-                  onChange={handleChange}
-                  className="w-full bg-white border border-slate-300 rounded px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
-                />
-              </div>
-
-              {/* Web Site */}
-              <div>
-                <label className="block text-sm font-bold text-slate-900 mb-1.5">
-                  {language === 'ar' ? 'الموقع الإلكتروني' : 'Web Site'}
-                </label>
-                <input
-                  type="url"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleChange}
-                  className="w-full bg-white border border-slate-300 rounded px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
+                  placeholder="e.g. Operations Director"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:bg-white transition-all font-medium"
                 />
               </div>
             </div>
 
-            {/* Public Profile Copy (Full width) */}
-            <div>
-              <label className="block text-sm font-bold text-slate-900 mb-1.5">
-                {language === 'ar' ? 'نبذة الملف الشخصي العام' : 'Public Profile Copy'}
-              </label>
-              <textarea
-                name="publicProfileCopy"
-                rows={5}
-                value={formData.publicProfileCopy}
-                onChange={handleChange}
-                className="w-full bg-white border border-slate-300 rounded p-3 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
-              />
-            </div>
-
-            {/* Preferred Language 1 matching Screenshot 3 & 4 */}
-            <div>
-              <label className="block text-sm font-bold text-slate-900 mb-1.5">
-                {language === 'ar' ? 'اللغة المفضلة 1' : 'Preferred Language 1'}
-              </label>
-              <div className="relative">
-                <select
-                  name="preferredLanguage"
-                  value={formData.preferredLanguage}
-                  onChange={handleChange}
-                  className="w-full appearance-none bg-white border border-slate-300 rounded px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0] cursor-pointer"
-                >
-                  <option value="">{t.selectPlaceholder || 'Select'}</option>
-                  <option value="en">English</option>
-                  <option value="ar">العربية (Arabic)</option>
-                </select>
-                <ChevronDown className="w-4 h-4 text-slate-600 absolute ltr:right-3 rtl:left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-            </div>
-
-            {/* How may we contact you? Select all that apply. matching Screenshot 4 */}
-            <div className="pt-6 border-t border-slate-200">
-              <h3 className="text-base font-bold text-slate-900 mb-4">
-                {language === 'ar' ? (
-                  <>كيف يمكننا التواصل معك؟ <span className="font-normal text-slate-500">حدد كل ما ينطبق.</span></>
-                ) : (
-                  <>How may we contact you? <span className="font-normal text-slate-500">Select all that apply.</span></>
-                )}
-              </h3>
-
-              <div className="space-y-2.5">
-                <label className="flex items-center gap-2.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="contactEmail"
-                    checked={formData.contactEmail}
-                    onChange={handleChange}
-                    className="w-4 h-4 rounded text-[#00a3e0] focus:ring-[#00a3e0] border-slate-300 cursor-pointer"
-                  />
-                  <span className="text-sm font-medium text-slate-900">
-                    {t.contactOptionEmail || 'Email'}
-                  </span>
-                </label>
-
-                <label className="flex items-center gap-2.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="contactFax"
-                    checked={formData.contactFax}
-                    onChange={handleChange}
-                    className="w-4 h-4 rounded text-[#00a3e0] focus:ring-[#00a3e0] border-slate-300 cursor-pointer"
-                  />
-                  <span className="text-sm font-medium text-slate-900">
-                    {t.contactOptionFax || 'Fax'}
-                  </span>
-                </label>
-
-                <label className="flex items-center gap-2.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="contactPhone"
-                    checked={formData.contactPhone}
-                    onChange={handleChange}
-                    className="w-4 h-4 rounded text-[#00a3e0] focus:ring-[#00a3e0] border-slate-300 cursor-pointer"
-                  />
-                  <span className="text-sm font-medium text-slate-900">
-                    {t.contactOptionPhone || 'Phone'}
-                  </span>
-                </label>
-
-                <label className="flex items-center gap-2.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="contactMail"
-                    checked={formData.contactMail}
-                    onChange={handleChange}
-                    className="w-4 h-4 rounded text-[#00a3e0] focus:ring-[#00a3e0] border-slate-300 cursor-pointer"
-                  />
-                  <span className="text-sm font-medium text-slate-900">
-                    {t.contactOptionMail || 'Mail'}
-                  </span>
-                </label>
-              </div>
-            </div>
-
-            {/* Update Button matching Screenshot 4 */}
-            <div className="pt-2">
+            {/* Submit Button */}
+            <div className="pt-4 border-t border-slate-100 flex items-center justify-end">
               <button
                 type="submit"
-                className="bg-[#00a3e0] hover:bg-[#008ec4] text-white text-sm font-medium px-6 py-2 rounded transition-all cursor-pointer shadow-sm active:scale-95"
+                className="bg-gradient-to-r from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 active:scale-95 text-white font-extrabold px-7 py-3 rounded-2xl text-sm shadow-md shadow-cyan-500/25 transition-all cursor-pointer"
               >
-                {t.btnUpdateProfile || 'Update'}
+                {t.btnUpdate || 'Save Changes'}
               </button>
             </div>
           </form>

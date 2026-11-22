@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { X, ArrowRight, Building2, User } from 'lucide-react';
+import { X, ArrowRight, Building2, User, Plus, FileText, Upload } from 'lucide-react';
 
-// Sample employee pool — in a real app this would come from your API/state
 const EMPLOYEE_POOL = [
   { id: 'e1', name: 'Khorshida Begum',       number: '1021041', iqama: '2617180471', projectId: 'p1' },
   { id: 'e2', name: 'Adrian Zamora Gascon',  number: '1020811', iqama: '2610360...', projectId: 'p1' },
@@ -90,30 +89,35 @@ export const NewRequestModal = ({
     onClose();
   };
 
-  const inputCls = 'w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 outline-none focus:border-[#00a3e0] focus:ring-1 focus:ring-[#00a3e0] transition-all cursor-pointer';
+  const inputCls = 'w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-800 outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:bg-white transition-all cursor-pointer font-medium';
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 py-8">
-      <div className="relative bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4 py-8 animate-in fade-in duration-150">
+      <div className="relative bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200/90 overflow-hidden animate-in zoom-in-95 duration-150 my-auto">
         {/* Header */}
-        <div className="p-6 pb-4 flex items-center justify-between border-b border-slate-100/80">
-          <h3 className="text-lg font-bold text-slate-900">
-            {t.newRequestModalTitle} – {requestType}
-          </h3>
+        <div className="p-6 pb-4 flex items-center justify-between border-b border-slate-100 bg-slate-50/60">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-cyan-50 text-cyan-700 border border-cyan-200 mb-1">
+              <Plus className="w-3 h-3 text-cyan-600 stroke-[3]" />
+              <span>Initiate Request</span>
+            </div>
+            <h3 className="text-lg font-extrabold text-slate-900">
+              {t.newRequestModalTitle} – {requestType}
+            </h3>
+          </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5 max-h-[75vh] overflow-y-auto">
-
+        <form onSubmit={handleSubmit} className="p-6 sm:p-7 space-y-5 max-h-[75vh] overflow-y-auto">
           {/* 1. Request Type */}
           <div>
-            <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+            <label className="block text-xs font-bold text-slate-800 mb-1.5">
               {t.requestTypeLabel}
             </label>
             <select
@@ -127,19 +131,17 @@ export const NewRequestModal = ({
             </select>
           </div>
 
-          {/* ── SPONSORSHIP TRANSFER: smart employee picker ── */}
+          {/* SPONSORSHIP TRANSFER: smart employee picker */}
           {isSponsorshipTransfer ? (
             <div className="space-y-4">
-
-              {/* Step label */}
-              <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 {isRtl ? 'تفاصيل نقل الكفالة' : 'Transfer Details'}
               </p>
 
               {/* Employee selector */}
               <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                  <User className="w-3.5 h-3.5 inline-block mr-1 text-[#00a3e0]" />
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">
+                  <User className="w-3.5 h-3.5 inline-block mr-1 text-cyan-600" />
                   {isRtl ? 'الموظف' : 'Employee'} *
                 </label>
                 <select
@@ -160,10 +162,9 @@ export const NewRequestModal = ({
                 </select>
               </div>
 
-              {/* Transfer flow visual (shown once an employee is picked) */}
+              {/* Transfer flow visual */}
               {selectedEmployee && currentProject && (
                 <>
-                  {/* From → To card */}
                   <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-2xl p-4">
                     {/* FROM */}
                     <div className="flex-1 min-w-0">
@@ -175,17 +176,17 @@ export const NewRequestModal = ({
                           {selectedEmployee.name.slice(0, 2).toUpperCase()}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-[13px] font-semibold text-slate-900 truncate">{selectedEmployee.name}</p>
+                          <p className="text-[13px] font-bold text-slate-900 truncate">{selectedEmployee.name}</p>
                           <p className="text-[11px] text-slate-500 truncate">{currentProject.companyName}</p>
-                          <p className="text-[10px] text-slate-400">Contract {currentProject.contractCode}</p>
+                          <p className="text-[10px] text-slate-400 font-mono">Contract {currentProject.contractCode}</p>
                         </div>
                       </div>
                     </div>
 
                     {/* Arrow */}
                     <div className="flex flex-col items-center gap-1 shrink-0">
-                      <ArrowRight className="w-5 h-5 text-[#00a3e0]" />
-                      <span className="text-[9px] font-semibold text-[#00a3e0] uppercase tracking-wider">
+                      <ArrowRight className="w-5 h-5 text-cyan-600 rtl:rotate-180" />
+                      <span className="text-[9px] font-bold text-cyan-600 uppercase tracking-wider">
                         {isRtl ? 'نقل' : 'Transfer'}
                       </span>
                     </div>
@@ -200,12 +201,12 @@ export const NewRequestModal = ({
                           const toProj = allProjects.find(p => p.id === transferToProjectId);
                           return (
                             <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 rounded-full bg-[#00a3e0] text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                              <div className="w-7 h-7 rounded-full bg-cyan-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0">
                                 <Building2 className="w-3.5 h-3.5" />
                               </div>
                               <div className="min-w-0">
-                                <p className="text-[13px] font-semibold text-slate-900 truncate">{toProj?.companyName}</p>
-                                <p className="text-[10px] text-slate-400">Contract {toProj?.contractCode}</p>
+                                <p className="text-[13px] font-bold text-slate-900 truncate">{toProj?.companyName}</p>
+                                <p className="text-[10px] text-slate-400 font-mono">Contract {toProj?.contractCode}</p>
                               </div>
                             </div>
                           );
@@ -218,8 +219,8 @@ export const NewRequestModal = ({
 
                   {/* Transfer To selector */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-800 mb-1.5">
-                      <Building2 className="w-3.5 h-3.5 inline-block mr-1 text-[#00a3e0]" />
+                    <label className="block text-xs font-bold text-slate-800 mb-1.5">
+                      <Building2 className="w-3.5 h-3.5 inline-block mr-1 text-cyan-600" />
                       {isRtl ? 'نقل إلى' : 'Transfer To'} *
                     </label>
                     {transferTargets.length === 0 ? (
@@ -245,7 +246,7 @@ export const NewRequestModal = ({
 
               {/* Action Needed */}
               <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">
                   {t.actionNeededLabel}
                 </label>
                 <select
@@ -258,12 +259,11 @@ export const NewRequestModal = ({
                 </select>
               </div>
             </div>
-
           ) : (
-            /* ── ALL OTHER REQUEST TYPES: original workers textarea ── */
+            /* ALL OTHER REQUEST TYPES */
             <>
               <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">
                   {t.actionNeededLabel}
                 </label>
                 <select
@@ -277,25 +277,26 @@ export const NewRequestModal = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">
                   {t.workersLabel}
                 </label>
                 <textarea
                   rows={4}
                   value={workersText}
                   onChange={(e) => setWorkersText(e.target.value)}
-                  className="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-sm text-slate-800 outline-none focus:border-[#00a3e0] focus:ring-1 focus:ring-[#00a3e0] transition-all resize-y"
+                  placeholder="Enter employee names, Iqama numbers, or personnel IDs..."
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs sm:text-sm text-slate-800 outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:bg-white transition-all resize-y font-medium"
                 />
-                <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">{t.workersHelperText}</p>
+                <p className="text-[11px] text-slate-400 mt-1.5 leading-relaxed">{t.workersHelperText}</p>
               </div>
             </>
           )}
 
           {/* Attachments */}
-          <div className="space-y-3 pt-1">
+          <div className="space-y-3 pt-2 border-t border-slate-100">
             <div>
               <h4 className="text-xs font-bold text-slate-900">{t.attachmentsLabel}</h4>
-              <p className="text-[11px] text-slate-500 mt-0.5">{t.attachmentsHelperText}</p>
+              <p className="text-[11px] text-slate-400 mt-0.5">{t.attachmentsHelperText}</p>
             </div>
 
             {[
@@ -304,13 +305,13 @@ export const NewRequestModal = ({
               { label: t.otherAttachmentsLabel, files: otherFiles,    setFiles: setOtherFiles },
             ].map(({ label, files, setFiles }) => (
               <div key={label}>
-                <label className="block text-xs font-semibold text-slate-800 mb-1.5">{label}</label>
+                <label className="block text-xs font-bold text-slate-800 mb-1.5">{label}</label>
                 <div className="flex items-center gap-2">
-                  <label className="cursor-pointer bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs font-medium px-3.5 py-1.5 rounded-lg transition-colors">
+                  <label className="cursor-pointer bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold px-3.5 py-1.5 rounded-lg transition-colors">
                     {t.chooseFilesBtn}
                     <input type="file" multiple className="hidden" onChange={(e) => setFiles(Array.from(e.target.files || []))} />
                   </label>
-                  <span className="text-xs text-slate-500">
+                  <span className="text-xs text-slate-500 font-medium">
                     {files.length > 0 ? `${files.length} file(s) selected` : t.noFileSelected}
                   </span>
                 </div>
@@ -319,28 +320,29 @@ export const NewRequestModal = ({
           </div>
 
           {/* Notes */}
-          <div className="pt-1">
-            <label className="block text-xs font-semibold text-slate-800 mb-1.5">{t.notesOptionalLabel}</label>
+          <div className="pt-2">
+            <label className="block text-xs font-bold text-slate-800 mb-1.5">{t.notesOptionalLabel}</label>
             <textarea
               rows={3}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full bg-white border border-slate-300 rounded-xl p-3.5 text-sm text-slate-800 outline-none focus:border-[#00a3e0] focus:ring-1 focus:ring-[#00a3e0] transition-all resize-y"
+              placeholder="Additional remarks or urgency instructions..."
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs sm:text-sm text-slate-800 outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 focus:bg-white transition-all resize-y font-medium"
             />
           </div>
 
           {/* Action buttons */}
-          <div className="pt-3 flex items-center gap-3">
+          <div className="pt-3 border-t border-slate-100 flex items-center gap-3">
             <button
               type="submit"
-              className="bg-[#4338ca] hover:bg-[#3730a3] active:scale-95 text-white font-semibold text-xs px-6 py-2.5 rounded-xl shadow-md shadow-indigo-300/40 transition-all cursor-pointer"
+              className="bg-gradient-to-r from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 active:scale-95 text-white font-extrabold text-xs px-6 py-2.5 rounded-xl shadow-md shadow-cyan-500/25 transition-all cursor-pointer"
             >
               {t.btnSubmitRequest}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-semibold text-xs px-5 py-2.5 rounded-xl transition-colors cursor-pointer"
+              className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-colors cursor-pointer"
             >
               {t.btnCancel}
             </button>

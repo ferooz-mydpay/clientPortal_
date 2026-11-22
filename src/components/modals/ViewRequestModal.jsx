@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { X, Clock, CheckCircle2, FileText, User, Building2, Send, MessageSquare } from 'lucide-react';
 
 export const ViewRequestModal = ({ isOpen, onClose, request, t, onAddComment }) => {
   const [commentText, setCommentText] = useState('');
@@ -9,7 +10,7 @@ export const ViewRequestModal = ({ isOpen, onClose, request, t, onAddComment }) 
   const isInProgress = request.status === 'In Progress';
   const isNew = request.status === 'New';
 
-  // Workers data for this request (matching screenshots)
+  // Workers data for this request
   const workers = request.workersList || [
     {
       name: 'احمد عبد الباقي محمد',
@@ -20,7 +21,7 @@ export const ViewRequestModal = ({ isOpen, onClose, request, t, onAddComment }) 
     },
   ];
 
-  // History timeline events (matching screenshots)
+  // History timeline events
   const historyEvents = request.history || (isCompleted
     ? [
         {
@@ -65,58 +66,61 @@ export const ViewRequestModal = ({ isOpen, onClose, request, t, onAddComment }) 
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 py-8">
-      <div className="relative bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4 py-8 animate-in fade-in duration-150">
+      <div className="relative bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200/90 overflow-hidden animate-in zoom-in-95 duration-150 my-auto">
         {/* Top Header */}
-        <div className="p-6 pb-4 flex items-center justify-between border-b border-slate-100/80">
-          <h2 className="text-[17px] sm:text-[19px] font-bold text-slate-900">
-            {request.id} – {request.type}
-          </h2>
+        <div className="p-6 pb-4 flex items-center justify-between border-b border-slate-100 bg-slate-50/60">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 mb-1">
+              <FileText className="w-3 h-3 text-indigo-600" />
+              <span>Administrative Dossier</span>
+            </div>
+            <h2 className="text-[18px] sm:text-[20px] font-extrabold text-slate-900 tracking-tight">
+              {request.id} – {request.type}
+            </h2>
+          </div>
 
           <button
             onClick={onClose}
-            className="bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-semibold text-xs px-4 py-1.5 rounded-xl transition-colors cursor-pointer"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
           >
-            {t.btnClose}
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
-          {/* Status Stepper / Pills Row matching screenshots */}
-          <div className="flex items-center gap-2">
-            {/* New status pill */}
+        <div className="p-6 sm:p-7 space-y-6 max-h-[78vh] overflow-y-auto">
+          {/* Status Stepper */}
+          <div className="flex items-center gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200/80">
             <span
-              className={`px-3.5 py-1 rounded-full text-xs font-semibold ${
+              className={`flex-1 text-center py-1.5 rounded-xl text-xs font-bold transition-all ${
                 isNew
-                  ? 'bg-[#4338ca] text-white shadow-xs'
+                  ? 'bg-indigo-600 text-white shadow-xs'
                   : isCompleted || isInProgress
-                  ? 'bg-[#e8f8f0] text-[#059669]'
-                  : 'bg-slate-100 text-slate-500'
+                  ? 'bg-emerald-100 text-emerald-800'
+                  : 'text-slate-500'
               }`}
             >
               {t.statusNew}
             </span>
 
-            {/* In Progress status pill */}
             <span
-              className={`px-3.5 py-1 rounded-full text-xs font-semibold ${
+              className={`flex-1 text-center py-1.5 rounded-xl text-xs font-bold transition-all ${
                 isInProgress
-                  ? 'bg-[#4338ca] text-white shadow-xs'
+                  ? 'bg-indigo-600 text-white shadow-xs'
                   : isCompleted
-                  ? 'bg-[#e8f8f0] text-[#059669]'
-                  : 'bg-slate-100 text-slate-500'
+                  ? 'bg-emerald-100 text-emerald-800'
+                  : 'text-slate-500'
               }`}
             >
               {t.statusInProgress}
             </span>
 
-            {/* Completed status pill */}
             <span
-              className={`px-3.5 py-1 rounded-full text-xs font-semibold ${
+              className={`flex-1 text-center py-1.5 rounded-xl text-xs font-bold transition-all ${
                 isCompleted
-                  ? 'bg-[#4338ca] text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-500'
+                  ? 'bg-indigo-600 text-white shadow-xs'
+                  : 'text-slate-500'
               }`}
             >
               {t.statusCompleted}
@@ -124,21 +128,21 @@ export const ViewRequestModal = ({ isOpen, onClose, request, t, onAddComment }) 
           </div>
 
           {/* Dates Metadata */}
-          <div className="space-y-3">
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
             <div className="grid grid-cols-2 gap-4 text-xs">
               <div>
-                <span className="text-slate-500 font-medium block">
+                <span className="text-slate-400 font-semibold block">
                   {t.colRequestedOn}
                 </span>
-                <span className="text-slate-800 font-semibold text-[13px] mt-0.5 block">
+                <span className="text-slate-900 font-bold text-[13px] mt-0.5 block font-mono">
                   {request.requestedOn}
                 </span>
               </div>
               <div>
-                <span className="text-slate-500 font-medium block">
+                <span className="text-slate-400 font-semibold block">
                   {t.colExpectedBy}
                 </span>
-                <span className="text-slate-800 font-semibold text-[13px] mt-0.5 block">
+                <span className="text-slate-900 font-bold text-[13px] mt-0.5 block font-mono">
                   {request.expectedBy}
                 </span>
               </div>
@@ -146,20 +150,20 @@ export const ViewRequestModal = ({ isOpen, onClose, request, t, onAddComment }) 
 
             {/* Optional Vacation Dates */}
             {(request.startDate || request.type === 'Vacation') && (
-              <div className="grid grid-cols-2 gap-4 text-xs pt-1">
+              <div className="grid grid-cols-2 gap-4 text-xs pt-2 border-t border-slate-200/60">
                 <div>
-                  <span className="text-slate-500 font-medium block">
+                  <span className="text-slate-400 font-semibold block">
                     {t.labelStartDate}
                   </span>
-                  <span className="text-slate-800 font-semibold text-[13px] mt-0.5 block">
+                  <span className="text-slate-900 font-bold text-[13px] mt-0.5 block font-mono">
                     {request.startDate || '15/11/2026'}
                   </span>
                 </div>
                 <div>
-                  <span className="text-slate-500 font-medium block">
+                  <span className="text-slate-400 font-semibold block">
                     {t.labelEndDate}
                   </span>
-                  <span className="text-slate-800 font-semibold text-[13px] mt-0.5 block">
+                  <span className="text-slate-900 font-bold text-[13px] mt-0.5 block font-mono">
                     {request.endDate || '26/11/2026'}
                   </span>
                 </div>
@@ -167,9 +171,9 @@ export const ViewRequestModal = ({ isOpen, onClose, request, t, onAddComment }) 
             )}
 
             {/* Request Details Line */}
-            <div className="text-xs pt-1">
-              <span className="font-bold text-slate-900">{t.labelRequestDetails} </span>
-              <span className="text-slate-700 font-normal">
+            <div className="text-xs pt-2 border-t border-slate-200/60">
+              <span className="font-bold text-slate-900">{t.labelRequestDetails}: </span>
+              <span className="text-slate-700 font-medium">
                 {request.details || (request.type === 'Vacation' ? 'وقاى' : 'not working')}
               </span>
             </div>
@@ -177,30 +181,30 @@ export const ViewRequestModal = ({ isOpen, onClose, request, t, onAddComment }) 
 
           {/* Workers Section */}
           <div className="space-y-2.5">
-            <h3 className="text-[17px] font-bold text-slate-900">
+            <h3 className="text-[16px] font-extrabold text-slate-900">
               {t.titleWorkers}
             </h3>
 
-            <div className="bg-[#f8fafc] border border-slate-200/80 rounded-2xl overflow-hidden">
+            <div className="border border-slate-200 rounded-2xl overflow-hidden shadow-2xs">
               <div className="overflow-x-auto">
                 <table className="w-full text-left rtl:text-right text-xs">
                   <thead>
-                    <tr className="text-slate-600 font-semibold border-b border-slate-200/80 bg-slate-100/60">
-                      <th className="py-2.5 px-4 font-semibold">{t.colWorker}</th>
-                      <th className="py-2.5 px-4 font-semibold">{t.colIdIqama}</th>
-                      <th className="py-2.5 px-4 font-semibold">{t.colPersonnelNo}</th>
-                      <th className="py-2.5 px-4 font-semibold">{t.colNationality}</th>
-                      <th className="py-2.5 px-4 font-semibold">{t.colProfession}</th>
+                    <tr className="text-slate-500 font-bold border-b border-slate-200 bg-slate-50 uppercase text-[10.5px]">
+                      <th className="py-2.5 px-4">{t.colWorker}</th>
+                      <th className="py-2.5 px-4">{t.colIdIqama}</th>
+                      <th className="py-2.5 px-4">{t.colPersonnelNo}</th>
+                      <th className="py-2.5 px-4">{t.colNationality}</th>
+                      <th className="py-2.5 px-4">{t.colProfession}</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-slate-100 text-slate-800 font-arabic">
                     {workers.map((w, idx) => (
-                      <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
-                        <td className="py-3 px-4 font-bold">{w.name}</td>
-                        <td className="py-3 px-4 font-mono font-normal">{w.idIqama}</td>
-                        <td className="py-3 px-4 font-mono font-normal">{w.personnelNo}</td>
-                        <td className="py-3 px-4">{w.nationality}</td>
-                        <td className="py-3 px-4">{w.profession}</td>
+                      <tr key={idx} className="hover:bg-slate-50/80 transition-colors">
+                        <td className="py-3 px-4 font-bold text-slate-900">{w.name}</td>
+                        <td className="py-3 px-4 font-mono font-medium">{w.idIqama}</td>
+                        <td className="py-3 px-4 font-mono font-medium">{w.personnelNo}</td>
+                        <td className="py-3 px-4 font-medium">{w.nationality}</td>
+                        <td className="py-3 px-4 font-medium">{w.profession}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -211,17 +215,17 @@ export const ViewRequestModal = ({ isOpen, onClose, request, t, onAddComment }) 
 
           {/* Request history Section */}
           <div className="space-y-3">
-            <h3 className="text-[17px] font-bold text-slate-900">
+            <h3 className="text-[16px] font-extrabold text-slate-900">
               {t.titleRequestHistory}
             </h3>
 
-            <div className="space-y-3 text-xs pl-3 rtl:pl-0 rtl:pr-3 border-l-2 rtl:border-l-0 rtl:border-r-2 border-slate-200">
+            <div className="space-y-3 text-xs pl-4 rtl:pl-0 rtl:pr-4 border-l-2 rtl:border-l-0 rtl:border-r-2 border-indigo-200">
               {historyEvents.map((ev, idx) => (
-                <div key={idx} className="space-y-0.5">
-                  <div className="text-slate-500 font-normal">
-                    {ev.timestamp} · {ev.actor} · {ev.stage}
+                <div key={idx} className="space-y-0.5 relative">
+                  <div className="text-slate-400 font-mono text-[11px]">
+                    {ev.timestamp} · {ev.actor} · <span className="font-bold text-indigo-600">{ev.stage}</span>
                   </div>
-                  <div className="text-slate-800 font-medium text-[13px]">
+                  <div className="text-slate-800 font-semibold text-[13px]">
                     {ev.message}
                   </div>
                 </div>
@@ -230,25 +234,26 @@ export const ViewRequestModal = ({ isOpen, onClose, request, t, onAddComment }) 
           </div>
 
           {/* Add a comment Section */}
-          <div className="space-y-3 pt-2">
-            <label className="block text-xs font-bold text-slate-900">
+          <div className="space-y-3 pt-3 border-t border-slate-100">
+            <label className="block text-xs font-bold text-slate-800">
               {t.labelAddComment}
             </label>
 
             <textarea
-              rows={4}
+              rows={3}
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
-              placeholder=""
-              className="w-full bg-white border border-slate-300 rounded-2xl p-3.5 text-xs sm:text-sm text-slate-800 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all resize-y"
+              placeholder="Type an administrative inquiry or additional instructions..."
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3.5 text-xs sm:text-sm text-slate-800 outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all resize-y font-medium"
             />
 
             <div>
               <button
                 onClick={handleSendComment}
-                className="bg-[#4338ca] hover:bg-[#3730a3] active:scale-95 text-white font-semibold text-xs px-6 py-2.5 rounded-xl shadow-md shadow-indigo-300/40 transition-all cursor-pointer"
+                className="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-xs px-6 py-2.5 rounded-xl shadow-md shadow-indigo-500/20 transition-all cursor-pointer flex items-center gap-1.5"
               >
-                {t.btnSendComment}
+                <Send className="w-3.5 h-3.5 rtl:rotate-180" />
+                <span>{t.btnSendComment}</span>
               </button>
             </div>
           </div>

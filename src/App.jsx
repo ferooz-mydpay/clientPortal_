@@ -440,7 +440,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col ${!isAuthenticated && activeTab !== 'chat' ? 'bg-white' : 'bg-[#f4f6fa]'} ${language === 'ar' ? 'font-arabic' : 'font-sans'}`}>
+    <div className={`min-h-screen flex flex-col ${!isAuthenticated && activeTab !== 'chat' ? 'bg-slate-50' : 'bg-[#f8fafc]'} ${language === 'ar' ? 'font-arabic' : 'font-sans'}`}>
       {/* 1. Top Privacy Notice Banner */}
       <TopBanner t={t} signedInUser={isAuthenticated ? t.userName : "CRMJSVC1"} />
 
@@ -470,7 +470,7 @@ export default function App() {
 
       {/* Main Body Content: When not authenticated and on home/signin tab, show SignInPage matching Image 1 & 2 */}
       {!isAuthenticated && activeTab !== 'chat' ? (
-        <main className="flex-1 w-full bg-white">
+        <main className="flex-1 w-full bg-slate-50">
           <SignInPage
             t={t}
             language={language}
@@ -479,7 +479,7 @@ export default function App() {
           />
         </main>
       ) : (
-        <main className="flex-1 max-w-[1380px] w-full mx-auto px-4 sm:px-8 py-6 md:py-8">
+        <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-8 py-6 md:py-8">
         {/* Tab 1: Home Dashboard */}
         {activeTab === 'home' && (
           <>
@@ -662,8 +662,10 @@ export default function App() {
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#0f172a] text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 text-xs font-semibold animate-in fade-in slide-in-from-bottom-4 duration-200 border border-slate-700">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#070b14]/95 backdrop-blur-xl text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-bold animate-in fade-in slide-in-from-bottom-4 duration-200 border border-slate-750">
+          <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+          </div>
           <span>{toastMessage}</span>
         </div>
       )}

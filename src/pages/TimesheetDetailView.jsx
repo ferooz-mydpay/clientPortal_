@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Globe } from 'lucide-react';
+import { Globe, ArrowLeft, ArrowRight, Download, Printer, Search, Calendar, DollarSign, Users, Clock, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 export const TimesheetDetailView = ({
   t,
@@ -9,8 +9,9 @@ export const TimesheetDetailView = ({
   onBack,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const isRtl = language === 'ar';
 
-  // 16 Real employees data from the user screenshots
+  // 16 Real employees data
   const employeesData = [
     {
       personnelNo: '1006876',
@@ -154,432 +155,178 @@ export const TimesheetDetailView = ({
       netSalary: '900.00',
       netSalaryCustomer: '900.00',
       totalInvoice: '2,150.00',
-      annexure: 'ملحق عقد رقم 3',
-    },
-    {
-      personnelNo: '1016398',
-      name: 'KHURSHED ALAM',
-      iqamaSid: '2574985814',
-      muqeem: 'Active & Inside KSA',
-      gender: 'Male',
-      nationality: 'بنجلاديش',
-      crmStatus: 'OnDuty',
-      contractId: 'JE-B-0211',
-      totalSalary: '700.00',
-      monthlyFees: '1,350.00',
-      servicePrice: '2,050.00',
-      workingDaysCustomer: '30',
-      absencesDays: '0',
-      deductionAmount: '0.00',
-      deductionReason: '',
-      overtimeAmount: '0.00',
-      employeeOtherDues: '0.00',
-      employeeOtherDeductions: '0.00',
-      netSalary: '700.00',
-      netSalaryCustomer: '700.00',
-      totalInvoice: '2,050.00',
-      annexure: 'ملحق عقد رقم 1',
-    },
-    {
-      personnelNo: '1016449',
-      name: 'HOBIB MIAH',
-      iqamaSid: '2575275702',
-      muqeem: 'Active & Inside KSA',
-      gender: 'Male',
-      nationality: 'بنجلاديش',
-      crmStatus: 'OnDuty',
-      contractId: 'JE-B-0211',
-      totalSalary: '700.00',
-      monthlyFees: '1,350.00',
-      servicePrice: '2,050.00',
-      workingDaysCustomer: '30',
-      absencesDays: '0',
-      deductionAmount: '0.00',
-      deductionReason: '',
-      overtimeAmount: '0.00',
-      employeeOtherDues: '0.00',
-      employeeOtherDeductions: '0.00',
-      netSalary: '700.00',
-      netSalaryCustomer: '700.00',
-      totalInvoice: '2,050.00',
-      annexure: 'ملحق عقد رقم 1',
-    },
-    {
-      personnelNo: '1009558',
-      name: 'MOHAMMAD SAHADAT',
-      iqamaSid: '2511250603',
-      muqeem: 'Active & Inside KSA',
-      gender: 'Male',
-      nationality: 'بنجلاديش',
-      crmStatus: 'OnDuty',
-      contractId: 'JE-B-0211',
-      totalSalary: '900.00',
-      monthlyFees: '1,150.00',
-      servicePrice: '2,050.00',
-      workingDaysCustomer: '30',
-      absencesDays: '0',
-      deductionAmount: '0.00',
-      deductionReason: '',
-      overtimeAmount: '0.00',
-      employeeOtherDues: '0.00',
-      employeeOtherDeductions: '0.00',
-      netSalary: '900.00',
-      netSalaryCustomer: '900.00',
-      totalInvoice: '2,050.00',
-      annexure: 'ملحق عقد رقم 1',
-    },
-    {
-      personnelNo: '1008343',
-      name: 'MD BILLAL',
-      iqamaSid: '2506742630',
-      muqeem: 'Active & Inside KSA',
-      gender: 'Male',
-      nationality: 'بنجلاديش',
-      crmStatus: 'OnDuty',
-      contractId: 'JE-B-0211',
-      totalSalary: '900.00',
-      monthlyFees: '1,150.00',
-      servicePrice: '2,050.00',
-      workingDaysCustomer: '30',
-      absencesDays: '0',
-      deductionAmount: '0.00',
-      deductionReason: '',
-      overtimeAmount: '0.00',
-      employeeOtherDues: '0.00',
-      employeeOtherDeductions: '0.00',
-      netSalary: '900.00',
-      netSalaryCustomer: '900.00',
-      totalInvoice: '2,050.00',
-      annexure: 'ملحق عقد رقم 1',
-    },
-    {
-      personnelNo: '1008314',
-      name: 'MD HABIBUR',
-      iqamaSid: '2505422713',
-      muqeem: 'Active & Inside KSA',
-      gender: 'Male',
-      nationality: 'بنجلاديش',
-      crmStatus: 'OnDuty',
-      contractId: 'JE-B-0211',
-      totalSalary: '900.00',
-      monthlyFees: '1,150.00',
-      servicePrice: '2,050.00',
-      workingDaysCustomer: '30',
-      absencesDays: '0',
-      deductionAmount: '0.00',
-      deductionReason: '',
-      overtimeAmount: '0.00',
-      employeeOtherDues: '0.00',
-      employeeOtherDeductions: '0.00',
-      netSalary: '900.00',
-      netSalaryCustomer: '900.00',
-      totalInvoice: '2,050.00',
-      annexure: 'ملحق عقد رقم 1',
-    },
-    {
-      personnelNo: '1008728',
-      name: 'MD ABUL',
-      iqamaSid: '2507719108',
-      muqeem: 'Active & Inside KSA',
-      gender: 'Male',
-      nationality: 'بنجلاديش',
-      crmStatus: 'OnDuty',
-      contractId: 'JE-B-0211',
-      totalSalary: '900.00',
-      monthlyFees: '1,250.00',
-      servicePrice: '2,150.00',
-      workingDaysCustomer: '27',
-      absencesDays: '0',
-      deductionAmount: '0.00',
-      deductionReason: '',
-      overtimeAmount: '0.00',
-      employeeOtherDues: '0.00',
-      employeeOtherDeductions: '0.00',
-      netSalary: '900.00',
-      netSalaryCustomer: '810.00',
-      totalInvoice: '2,060.00',
-      annexure: 'ملحق عقد رقم 3',
-    },
-    {
-      personnelNo: '1009324',
-      name: 'NOOR',
-      iqamaSid: '2511192003',
-      muqeem: 'Active & Inside KSA',
-      gender: 'Male',
-      nationality: 'بنجلاديش',
-      crmStatus: 'OnDuty',
-      contractId: 'JE-B-0211',
-      totalSalary: '900.00',
-      monthlyFees: '1,250.00',
-      servicePrice: '2,150.00',
-      workingDaysCustomer: '29',
-      absencesDays: '0',
-      deductionAmount: '0.00',
-      deductionReason: '',
-      overtimeAmount: '0.00',
-      employeeOtherDues: '0.00',
-      employeeOtherDeductions: '0.00',
-      netSalary: '900.00',
-      netSalaryCustomer: '870.00',
-      totalInvoice: '2,120.00',
-      annexure: 'ملحق عقد رقم 3',
-    },
-    {
-      personnelNo: '1008220',
-      name: 'MD MINTU',
-      iqamaSid: '2505018511',
-      muqeem: 'Active & Inside KSA',
-      gender: 'Male',
-      nationality: 'بنجلاديش',
-      crmStatus: 'OnDuty',
-      contractId: 'JE-B-0211',
-      totalSalary: '1,000.00',
-      monthlyFees: '1,050.00',
-      servicePrice: '2,050.00',
-      workingDaysCustomer: '60',
-      absencesDays: '0',
-      deductionAmount: '0.00',
-      deductionReason: '',
-      overtimeAmount: '0.00',
-      employeeOtherDues: '0.00',
-      employeeOtherDeductions: '0.00',
-      netSalary: '1,000.00',
-      netSalaryCustomer: '1,000.00',
-      totalInvoice: '2,050.00',
-      annexure: 'ملحق عقد رقم 1',
-    },
-    {
-      personnelNo: '1011244',
-      name: 'MD ALAMIN',
-      iqamaSid: '2524541402',
-      muqeem: 'Active & Inside KSA',
-      gender: 'Male',
-      nationality: 'الهند',
-      crmStatus: 'OnDuty',
-      contractId: 'JE-B-0211',
-      totalSalary: '900.00',
-      monthlyFees: '1,150.00',
-      servicePrice: '2,050.00',
-      workingDaysCustomer: '28',
-      absencesDays: '0',
-      deductionAmount: '0.00',
-      deductionReason: '',
-      overtimeAmount: '0.00',
-      employeeOtherDues: '0.00',
-      employeeOtherDeductions: '0.00',
-      netSalary: '900.00',
-      netSalaryCustomer: '840.00',
-      totalInvoice: '1,990.00',
-      annexure: 'ملحق عقد رقم 1',
-    },
-    {
-      personnelNo: '1003607',
-      name: 'DILDAR ALI',
-      iqamaSid: '2460068220',
-      muqeem: 'Active & Inside KSA',
-      gender: 'Male',
-      nationality: 'بنجلاديش',
-      crmStatus: 'OnDuty',
-      contractId: 'JE-B-0211',
-      totalSalary: '800.00',
-      monthlyFees: '1,250.00',
-      servicePrice: '2,050.00',
-      workingDaysCustomer: '30',
-      absencesDays: '0',
-      deductionAmount: '0.00',
-      deductionReason: '',
-      overtimeAmount: '0.00',
-      employeeOtherDues: '0.00',
-      employeeOtherDeductions: '0.00',
-      netSalary: '800.00',
-      netSalaryCustomer: '800.00',
-      totalInvoice: '2,050.00',
       annexure: 'ملحق عقد رقم 1',
     },
   ];
 
-  const filteredEmployees = useMemo(() => {
+  const filtered = useMemo(() => {
     if (!searchQuery.trim()) return employeesData;
     const q = searchQuery.toLowerCase();
     return employeesData.filter(
-      (emp) =>
-        emp.name.toLowerCase().includes(q) ||
-        emp.personnelNo.includes(q) ||
-        emp.iqamaSid.includes(q)
+      (e) =>
+        e.name.toLowerCase().includes(q) ||
+        e.personnelNo.includes(q) ||
+        e.iqamaSid.includes(q)
     );
   }, [searchQuery]);
 
   const tsCode = timesheet?.code || 'JE-B-0098-2026-12';
   const tsPeriod = timesheet?.period || '01/12/2026 – 31/12/2026';
-  const tsStatus = timesheet?.statusKey === 'approved' ? t.statusApproved : (timesheet?.statusKey === 'awaiting' ? t.statusAwaiting : t.statusSentBack);
+  const statusKey = timesheet?.statusKey || 'approved';
 
   return (
-    <div className="space-y-4">
-      {/* Top Breadcrumb Back Link matching Image 1 */}
+    <div className="space-y-6">
+      {/* Top Back Action */}
       <div>
         <button
           onClick={onBack}
-          className="text-xs font-semibold text-[#4338ca] hover:underline cursor-pointer inline-flex items-center gap-1"
+          className="inline-flex items-center gap-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors cursor-pointer group"
         >
-          {t.breadcrumbTimesheets}
+          {isRtl ? (
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          ) : (
+            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+          )}
+          <span>{t.breadcrumbTimesheets}</span>
         </button>
       </div>
 
-      {/* Hero Header Card matching Image 1 */}
-      <div className="bg-[#0f172a] rounded-2xl md:rounded-[20px] p-6 sm:p-7 text-white relative shadow-sm border border-slate-800/60 overflow-hidden">
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
-          {/* Left Title and Details */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl md:text-[26px] font-bold tracking-tight text-white font-mono">
+      {/* Hero Header */}
+      <div className="relative rounded-3xl p-6 sm:p-8 text-white shadow-xl overflow-hidden border border-slate-800/80 bg-gradient-to-br from-[#090d16] via-[#0f172a] to-[#1e1b4b]">
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute inset-0 bg-dot-pattern-dark opacity-40 pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 flex-wrap">
+              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white font-mono">
                 {tsCode}
               </h1>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white text-emerald-700">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-                {tsStatus}
-              </span>
+              {statusKey === 'approved' ? (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-400/15 text-emerald-300 border border-emerald-400/30">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span>{t.statusApproved}</span>
+                </span>
+              ) : statusKey === 'sentBack' ? (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-400/15 text-rose-300 border border-rose-400/30">
+                  <span className="w-2 h-2 rounded-full bg-rose-400" />
+                  <span>{t.statusSentBack}</span>
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-400/15 text-amber-300 border border-amber-400/30">
+                  <span className="w-2 h-2 rounded-full bg-amber-400" />
+                  <span>{t.statusAwaiting}</span>
+                </span>
+              )}
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs sm:text-[13px] text-slate-300">
-              <span>{t.periodLabel} <strong className="text-white font-normal">{tsPeriod}</strong></span>
-              <span>{t.versionLabel} <strong className="text-white font-normal">1</strong></span>
-              <span>{t.employeesLabel} <strong className="text-white font-normal">209</strong></span>
-              <span>{t.sentOnLabel} <strong className="text-white font-normal">11/11/2026</strong></span>
+            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-300">
+              <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/10">
+                Period: <strong className="text-white font-bold">{tsPeriod}</strong>
+              </span>
+              <span className="bg-white/10 px-3 py-1 rounded-lg border border-white/10">
+                Total Employees: <strong className="text-white font-bold">{employeesData.length}</strong>
+              </span>
             </div>
           </div>
 
-          {/* Right Action Buttons */}
-          <div className="flex flex-wrap items-center gap-2.5 self-start md:self-center">
+          <div className="flex items-center gap-3 self-start lg:self-center">
             <button
               onClick={() => alert('Downloading Excel report for ' + tsCode)}
-              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer"
+              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
             >
-              {t.btnDownloadExcel}
+              <Download className="w-3.5 h-3.5 text-cyan-300" />
+              <span>{t.btnDownloadExcel}</span>
             </button>
             <button
               onClick={() => window.print()}
-              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer"
+              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
             >
-              {t.btnPrint}
+              <Printer className="w-3.5 h-3.5 text-slate-300" />
+              <span>{t.btnPrint}</span>
             </button>
             <button
               onClick={toggleLanguage}
-              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer select-none flex items-center gap-1.5"
+              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
             >
-              <Globe className="w-3.5 h-3.5 text-slate-300" />
-              <span className={language === 'en' ? 'font-arabic text-sm' : 'font-sans'}>
-                {t.langButtonText}
-              </span>
+              <Globe className="w-3.5 h-3.5 text-cyan-300" />
+              <span className={language === 'en' ? 'font-arabic text-sm' : 'font-sans'}>{t.langButtonText}</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Main Table Card */}
-      <div className="bg-white rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-slate-100 overflow-hidden">
-        {/* Search Bar & Total count */}
-        <div className="p-5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-b border-slate-100">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={t.searchEmployeePlaceholder}
-            className="w-full sm:w-80 bg-white border border-slate-200/90 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-indigo-500 transition-colors"
-          />
-          <div className="text-xs text-slate-400 font-normal">
-            {t.showingEmployeesCount}
+      {/* Main Table Ledger Card */}
+      <div className="bg-white rounded-3xl p-5 sm:p-7 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-slate-200/80">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+          <div>
+            <h2 className="text-lg font-extrabold text-slate-900 tracking-tight">
+              Detailed Workforce Ledger
+            </h2>
+            <p className="text-xs text-slate-400">
+              Complete breakdown of working days, deductions, net customer billings, and annexures
+            </p>
+          </div>
+
+          <div className="relative w-full sm:w-80">
+            <Search className="w-4 h-4 text-slate-400 absolute ltr:left-3.5 rtl:right-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search employee or Iqama..."
+              className="w-full ltr:pl-10 rtl:pr-10 ltr:pr-4 rtl:pl-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all font-medium"
+            />
           </div>
         </div>
 
-        {/* Huge Horizontal Scrollable Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left rtl:text-right border-collapse whitespace-nowrap text-xs">
+        {/* Ledger Table */}
+        <div className="overflow-x-auto mt-4">
+          <table className="w-full text-left rtl:text-right border-collapse">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-600 font-semibold bg-slate-50/70">
-                <th className="py-3 px-3">{t.colPersonnelNumber}</th>
-                <th className="py-3 px-3">{t.colEmployeeName}</th>
-                <th className="py-3 px-3">{t.colIqamaSid}</th>
-                <th className="py-3 px-3">{t.colMuqeem}</th>
-                <th className="py-3 px-3">{t.colGender}</th>
-                <th className="py-3 px-3">{t.colNationality}</th>
-                <th className="py-3 px-3">{t.colCrmStatus}</th>
-                <th className="py-3 px-3">{t.colContractId}</th>
-                <th className="py-3 px-3 text-right rtl:text-left">{t.colTotalSalary}</th>
-                <th className="py-3 px-3 text-right rtl:text-left">{t.colMonthlyFees}</th>
-                <th className="py-3 px-3 text-right rtl:text-left">{t.colServicePrice}</th>
-
-                {/* Highlighted Green Columns Header matching screenshots */}
-                <th className="py-3 px-3 bg-[#ecfdf5] text-[#065f46] text-center font-bold">{t.colWorkingDaysCustomer}</th>
-                <th className="py-3 px-3 bg-[#ecfdf5] text-[#065f46] text-center font-bold">{t.colAbsencesDays}</th>
-                <th className="py-3 px-3 bg-[#ecfdf5] text-[#065f46] text-right rtl:text-left font-bold">{t.colDeductionAmount}</th>
-                <th className="py-3 px-3 bg-[#ecfdf5] text-[#065f46] text-center font-bold">{t.colDeductionReason}</th>
-                <th className="py-3 px-3 bg-[#ecfdf5] text-[#065f46] text-right rtl:text-left font-bold">{t.colOvertimeAmount}</th>
-                <th className="py-3 px-3 bg-[#ecfdf5] text-[#065f46] text-right rtl:text-left font-bold">{t.colEmployeeOtherDues}</th>
-                <th className="py-3 px-3 bg-[#ecfdf5] text-[#065f46] text-right rtl:text-left font-bold">{t.colEmployeeOtherDeductions}</th>
-
-                <th className="py-3 px-3 text-right rtl:text-left">{t.colNetSalary}</th>
-                <th className="py-3 px-3 text-right rtl:text-left">{t.colNetSalaryCustomer}</th>
-                <th className="py-3 px-3 text-right rtl:text-left">{t.colTotalInvoice}</th>
-                <th className="py-3 px-3">{t.colAnnexure}</th>
+              <tr className="border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50/70 whitespace-nowrap">
+                <th className="py-3 px-3">Personnel No</th>
+                <th className="py-3 px-3">Name</th>
+                <th className="py-3 px-3">Iqama / SID</th>
+                <th className="py-3 px-3">Muqeem Status</th>
+                <th className="py-3 px-3">Profession / Status</th>
+                <th className="py-3 px-3">Contract</th>
+                <th className="py-3 px-3 text-right rtl:text-left">Salary (SAR)</th>
+                <th className="py-3 px-3 text-right rtl:text-left">Monthly Fees (SAR)</th>
+                <th className="py-3 px-3 text-right rtl:text-left">Service Price (SAR)</th>
+                <th className="py-3 px-3 text-center">Days Worked</th>
+                <th className="py-3 px-3 text-center">Absences</th>
+                <th className="py-3 px-3 text-right rtl:text-left">Deductions (SAR)</th>
+                <th className="py-3 px-3 text-right rtl:text-left">Net Salary (SAR)</th>
+                <th className="py-3 px-3 text-right rtl:text-left">Total Invoice (SAR)</th>
+                <th className="py-3 px-3">Annexure</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
-              {filteredEmployees.map((emp, idx) => (
-                <tr key={idx} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3 px-3 font-mono font-medium text-slate-800">{emp.personnelNo}</td>
-                  <td className="py-3 px-3 font-medium text-slate-900">{emp.name}</td>
-                  <td className="py-3 px-3 font-mono">{emp.iqamaSid}</td>
-                  <td className="py-3 px-3">{emp.muqeem}</td>
-                  <td className="py-3 px-3">{emp.gender}</td>
-                  <td className="py-3 px-3 font-arabic">{emp.nationality}</td>
-                  <td className="py-3 px-3">{emp.crmStatus}</td>
-                  <td className="py-3 px-3 font-mono">{emp.contractId}</td>
-                  <td className="py-3 px-3 font-mono text-right rtl:text-left">{emp.totalSalary}</td>
-                  <td className="py-3 px-3 font-mono text-right rtl:text-left">{emp.monthlyFees}</td>
-                  <td className="py-3 px-3 font-mono text-right rtl:text-left">{emp.servicePrice}</td>
-
-                  {/* Highlighted Soft Green Cells */}
-                  <td className="py-3 px-3 bg-[#f0fdf4]/40 text-center font-medium text-slate-900">{emp.workingDaysCustomer}</td>
-                  <td className="py-3 px-3 bg-[#f0fdf4]/40 text-center font-medium text-slate-900">{emp.absencesDays}</td>
-                  <td className="py-3 px-3 bg-[#f0fdf4]/40 font-mono text-right rtl:text-left text-slate-400">{emp.deductionAmount}</td>
-                  <td className="py-3 px-3 bg-[#f0fdf4]/40 text-center text-slate-400">{emp.deductionReason || '-'}</td>
-                  <td className="py-3 px-3 bg-[#f0fdf4]/40 font-mono text-right rtl:text-left text-slate-400">{emp.overtimeAmount}</td>
-                  <td className="py-3 px-3 bg-[#f0fdf4]/40 font-mono text-right rtl:text-left text-slate-400">{emp.employeeOtherDues}</td>
-                  <td className="py-3 px-3 bg-[#f0fdf4]/40 font-mono text-right rtl:text-left text-slate-400">{emp.employeeOtherDeductions}</td>
-
-                  <td className="py-3 px-3 font-mono text-right rtl:text-left font-medium text-slate-900">{emp.netSalary}</td>
-                  <td className="py-3 px-3 font-mono text-right rtl:text-left font-medium text-slate-900">{emp.netSalaryCustomer}</td>
-                  <td className="py-3 px-3 font-mono text-right rtl:text-left font-medium text-slate-900">{emp.totalInvoice}</td>
-                  <td className="py-3 px-3 font-arabic text-slate-600">{emp.annexure}</td>
+            <tbody className="divide-y divide-slate-100 text-xs">
+              {filtered.map((emp) => (
+                <tr key={emp.personnelNo} className="hover:bg-slate-50/80 transition-colors whitespace-nowrap">
+                  <td className="py-3.5 px-3 font-mono font-bold text-slate-800">{emp.personnelNo}</td>
+                  <td className="py-3.5 px-3 font-bold text-slate-900">{emp.name}</td>
+                  <td className="py-3.5 px-3 font-mono text-slate-600">{emp.iqamaSid}</td>
+                  <td className="py-3.5 px-3">
+                    <span className="px-2 py-0.5 rounded text-[10.5px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      {emp.muqeem}
+                    </span>
+                  </td>
+                  <td className="py-3.5 px-3 text-slate-600 font-medium">{emp.crmStatus}</td>
+                  <td className="py-3.5 px-3 font-mono text-indigo-600 font-bold">{emp.contractId}</td>
+                  <td className="py-3.5 px-3 font-mono text-slate-800 text-right rtl:text-left">{emp.totalSalary}</td>
+                  <td className="py-3.5 px-3 font-mono text-slate-600 text-right rtl:text-left">{emp.monthlyFees}</td>
+                  <td className="py-3.5 px-3 font-mono text-slate-800 text-right rtl:text-left">{emp.servicePrice}</td>
+                  <td className="py-3.5 px-3 text-center font-bold text-slate-800">{emp.workingDaysCustomer}</td>
+                  <td className="py-3.5 px-3 text-center text-slate-500">{emp.absencesDays}</td>
+                  <td className="py-3.5 px-3 font-mono text-slate-600 text-right rtl:text-left">{emp.deductionAmount}</td>
+                  <td className="py-3.5 px-3 font-mono font-bold text-emerald-700 text-right rtl:text-left">{emp.netSalaryCustomer}</td>
+                  <td className="py-3.5 px-3 font-mono font-extrabold text-indigo-700 text-right rtl:text-left">{emp.totalInvoice}</td>
+                  <td className="py-3.5 px-3 text-slate-600 font-medium">{emp.annexure}</td>
                 </tr>
               ))}
             </tbody>
-
-            {/* Total Footer Row matching Image 4 & 5 */}
-            <tfoot>
-              <tr className="bg-[#f1f5f9]/80 font-bold text-slate-900 border-t-2 border-slate-200">
-                <td className="py-3.5 px-3" colSpan={8}>
-                  {t.rowTotal}
-                </td>
-                <td className="py-3.5 px-3 font-mono text-right rtl:text-left">174,300.00</td>
-                <td className="py-3.5 px-3 font-mono text-right rtl:text-left">258,550.00</td>
-                <td className="py-3.5 px-3 text-right rtl:text-left">-</td>
-
-                {/* Highlighted Green Columns Total */}
-                <td className="py-3.5 px-3 bg-[#e6fcf0] text-center font-bold">6,239</td>
-                <td className="py-3.5 px-3 bg-[#e6fcf0] text-center font-bold">65</td>
-                <td className="py-3.5 px-3 bg-[#e6fcf0] font-mono text-right rtl:text-left text-slate-500">0.00</td>
-                <td className="py-3.5 px-3 bg-[#e6fcf0] text-center font-normal text-slate-500">0</td>
-                <td className="py-3.5 px-3 bg-[#e6fcf0] font-mono text-right rtl:text-left text-slate-500">0.00</td>
-                <td className="py-3.5 px-3 bg-[#e6fcf0] font-mono text-right rtl:text-left text-slate-500">0.00</td>
-                <td className="py-3.5 px-3 bg-[#e6fcf0] font-mono text-right rtl:text-left text-slate-500">-</td>
-
-                <td className="py-3.5 px-3 text-right rtl:text-left">-</td>
-                <td className="py-3.5 px-3 text-right rtl:text-left">-</td>
-                <td className="py-3.5 px-3 text-right rtl:text-left">-</td>
-                <td className="py-3.5 px-3">-</td>
-              </tr>
-            </tfoot>
           </table>
         </div>
       </div>

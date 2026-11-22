@@ -96,53 +96,54 @@ export const EmployeeDetailView = ({ employee, onBack, t, language }) => {
       </div>
 
       {/* Main Employee Record Card Header matching Screenshot 1 */}
-      <div className="bg-[#0f172a] rounded-2xl p-6 sm:p-7 text-white shadow-sm border border-slate-800 relative overflow-hidden">
+      <div className="relative rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-slate-800/80 bg-gradient-to-br from-[#090d16] via-[#0f172a] to-[#1e1b4b] overflow-hidden">
         {/* Glow accent */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute inset-0 bg-dot-pattern-dark opacity-40 pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           {/* Left: Avatar + Name + Type */}
           <div className="flex items-center gap-4 sm:gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-pink-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/20 shrink-0">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-indigo-500/20 shrink-0">
               {employee.fullName.split(' ').map(n => n[0]).slice(0, 2).join('')}
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+                <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
                   {employee.fullName}
                 </h1>
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                   {isRtl ? 'محفوظ' : 'Saved'}
                 </span>
               </div>
-              <p className="text-slate-400 text-xs sm:text-sm mt-0.5 font-medium">
+              <p className="text-slate-300 text-xs sm:text-sm mt-1 font-medium">
                 {isRtl ? 'موظف' : 'Employee'} • {employee.profession} • {employee.nationality}
               </p>
             </div>
           </div>
 
-          {/* Right: CRM Metadata Grid matching Screenshot 1 Header */}
+          {/* Right: CRM Metadata Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs pt-4 lg:pt-0 border-t lg:border-t-0 border-slate-800">
             <div>
-              <span className="text-slate-400 block text-[11px] font-normal mb-1">
+              <span className="text-slate-400 block text-[11px] font-semibold mb-1">
                 {isRtl ? 'رقم الموظف' : 'Employee Number'}
               </span>
-              <span className="font-mono font-bold text-white text-sm">
+              <span className="font-mono font-bold text-white text-sm bg-white/10 px-2 py-0.5 rounded border border-white/10">
                 {employee.employeeNo}
               </span>
             </div>
 
             <div>
-              <span className="text-slate-400 block text-[11px] font-normal mb-1">
+              <span className="text-slate-400 block text-[11px] font-semibold mb-1">
                 {isRtl ? 'حالة الموظف' : 'Employee Status'}
               </span>
-              <span className="inline-block px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-400/15 text-amber-300 border border-amber-400/25">
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-400/20 text-amber-300 border border-amber-400/30">
                 {isRtl ? 'إجراءات الخروج النهائي' : 'On Final Exit Process'}
               </span>
             </div>
 
             <div>
-              <span className="text-slate-400 block text-[11px] font-normal mb-1">
+              <span className="text-slate-400 block text-[11px] font-semibold mb-1">
                 {isRtl ? 'المالك' : 'Owner'}
               </span>
               <span className="font-medium text-slate-200">
@@ -151,7 +152,7 @@ export const EmployeeDetailView = ({ employee, onBack, t, language }) => {
             </div>
 
             <div>
-              <span className="text-slate-400 block text-[11px] font-normal mb-1">
+              <span className="text-slate-400 block text-[11px] font-semibold mb-1">
                 {isRtl ? 'تاريخ الإنشاء' : 'Created On'}
               </span>
               <span className="font-medium text-slate-200">
@@ -162,17 +163,17 @@ export const EmployeeDetailView = ({ employee, onBack, t, language }) => {
         </div>
       </div>
 
-      {/* Navigation Tabs Bar matching Screenshot 1 */}
-      <div className="bg-white border-b border-slate-200 rounded-t-xl px-2 sm:px-4 flex items-center gap-1 sm:gap-2 overflow-x-auto whitespace-nowrap scrollbar-none shadow-2xs">
+      {/* Navigation Tabs Bar */}
+      <div className="bg-white border border-slate-200/90 rounded-t-3xl px-3 sm:px-6 flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none shadow-2xs">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`py-3.5 px-3.5 text-xs sm:text-sm font-semibold transition-all relative cursor-pointer ${
+              className={`py-3.5 px-4 text-xs sm:text-sm font-bold transition-all relative cursor-pointer ${
                 isActive
-                  ? 'text-[#00a3e0] border-b-2 border-[#00a3e0] bg-sky-50/40'
+                  ? 'text-indigo-600 border-b-2 border-indigo-600 bg-indigo-50/50'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
@@ -183,7 +184,7 @@ export const EmployeeDetailView = ({ employee, onBack, t, language }) => {
       </div>
 
       {/* Tab Content Panes */}
-      <div className="bg-white rounded-b-xl border border-t-0 border-slate-200 p-6 sm:p-8 space-y-8 shadow-xs">
+      <div className="bg-white rounded-b-3xl border border-t-0 border-slate-200/90 p-6 sm:p-9 space-y-8 shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
         {/* ===================== TAB 1: GENERAL ===================== */}
         {activeTab === 'general' && (
           <div className="space-y-8 animate-in fade-in duration-150">
