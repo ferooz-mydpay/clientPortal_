@@ -447,6 +447,7 @@ export default function App() {
       {/* 2. Main Navigation Bar */}
       <Navbar
         t={t}
+        language={language}
         activeTab={activeTab}
         setActiveTab={(tab) => {
           setActiveTab(tab);
@@ -462,6 +463,9 @@ export default function App() {
         isAuthenticated={isAuthenticated}
         onSignIn={handleSignIn}
         onSignOut={handleSignOut}
+        activeProject={activeProject}
+        allProjects={ALL_PROJECTS}
+        onSwitchProject={(id) => setActiveProjectId(id)}
       />
 
       {/* Main Body Content: When not authenticated and on home/signin tab, show SignInPage matching Image 1 & 2 */}
@@ -483,6 +487,7 @@ export default function App() {
               t={t}
               language={language}
               toggleLanguage={toggleLanguage}
+              activeProject={activeProject}
             />
 
             <StatCards t={t} activeProject={activeProject} />

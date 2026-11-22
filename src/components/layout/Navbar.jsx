@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Logo } from './Logo';
-import { Search, ChevronDown, Menu, X } from 'lucide-react';
+import { Search, ChevronDown, Menu, X, Check, Building2 } from 'lucide-react';
 
 export const Navbar = ({ 
   t, 
@@ -10,11 +10,20 @@ export const Navbar = ({
   onNavigateProfile,
   isAuthenticated = true,
   onSignIn,
-  onSignOut
+  onSignOut,
+  activeProject,
+  allProjects = [],
+  onSwitchProject,
+  language = 'en',
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+
+  const isRtl = language === 'ar';
+  const currentProjectName = isRtl
+    ? (activeProject?.companyNameAr || activeProject?.companyName)
+    : (activeProject?.companyName || activeProject?.companyNameAr);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -92,7 +101,7 @@ export const Navbar = ({
             <Search className="w-[19px] h-[19px] stroke-[2.2]" />
           </button>
 
-          {/* If authenticated: User selector dropdown matching Screenshot 1 */}
+          {/* If authenticated: Project selector dropdown */}
           {isAuthenticated ? (
             <div className="relative" ref={dropdownRef}>
               <button
@@ -102,14 +111,53 @@ export const Navbar = ({
                     ? 'border-2 border-[#00a3e0] bg-white rounded-2xl px-4 py-1.5 shadow-sm'
                     : 'hover:text-slate-950 px-3 py-1.5 rounded-xl hover:bg-slate-50'
                 }`}
+                title={currentProjectName || t.userPortalName}
               >
-                <span>{t.userPortalName}</span>
-                <ChevronDown className={`w-3.5 h-3.5 text-slate-600 stroke-[3] transition-transform ${userDropdownOpen ? 'rotate-180' : ''}`} />
+                <span className="max-w-[200px] lg:max-w-[260px] truncate">
+                  {currentProjectName || t.userPortalName}
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-slate-600 stroke-[3] shrink-0 transition-transform ${userDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Dropdown Menu matching Screenshot 1 */}
+              {/* Dropdown Menu */}
               {userDropdownOpen && (
-                <div className="absolute ltr:right-0 rtl:left-0 mt-2 w-40 bg-white rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.12)] border border-slate-100 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-100">
+                <div className="absolute ltr:right-0 rtl:left-0 mt-2 w-64 sm:w-72 bg-white rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.12)] border border-slate-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-100">
+                  {allProjects.length > 0 && (
+                    <>
+                      <div className="px-4 py-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                        {isRtl ? 'المشاريع' : 'Projects'}
+                      </div>
+                      <div className="max-h-52 overflow-y-auto py-1">
+                        {allProjects.map((proj) => {
+                          const isActive = proj.id === activeProject?.id;
+                          return (
+                            <button
+                              key={proj.id}
+                              onClick={() => {
+                                onSwitchProject && onSwitchProject(proj.id);
+                                setUserDropdownOpen(false);
+                              }}
+                              className={`w-full flex items-center justify-between px-4 py-2.5 text-left rtl:text-right hover:bg-slate-50 transition-colors cursor-pointer ${
+                                isActive ? 'bg-cyan-50/70 font-bold text-[#00a3e0]' : 'text-slate-700 font-medium'
+                              }`}
+                            >
+                              <div className="min-w-0 flex-1 pr-2 rtl:pr-0 rtl:pl-2">
+                                <div className="text-sm truncate">
+                                  {isRtl ? proj.companyNameAr : proj.companyName}
+                                </div>
+                                <div className="text-[11px] text-slate-400 font-normal">
+                                  Contract {proj.contractCode}
+                                </div>
+                              </div>
+                              {isActive && <Check className="w-4 h-4 text-[#00a3e0] shrink-0" />}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <div className="border-t border-slate-100 my-1.5" />
+                    </>
+                  )}
+
                   <button
                     onClick={() => {
                       setUserDropdownOpen(false);
@@ -190,24 +238,29 @@ export const Navbar = ({
           <div className="pt-3 border-t border-slate-100 mt-2 flex items-center justify-between px-3">
             {isAuthenticated ? (
               <>
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onNavigateProfile && onNavigateProfile();
-                  }}
-                  className="text-sm font-medium text-indigo-600 underline"
-                >
-                  {t.menuProfile}
-                </button>
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    if (onSignOut) onSignOut();
-                  }}
-                  className="text-xs text-rose-600 font-medium hover:underline"
-                >
-                  {t.menuSignOut}
-                </button>
+                <div className="text-xs font-semibold text-slate-700 truncate max-w-[160px]">
+                  {currentProjectName || t.userPortalName}
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onNavigateProfile && onNavigateProfile();
+                    }}
+                    className="text-sm font-medium text-indigo-600 underline"
+                  >
+                    {t.menuProfile}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      if (onSignOut) onSignOut();
+                    }}
+                    className="text-xs text-rose-600 font-medium hover:underline"
+                  >
+                    {t.menuSignOut}
+                  </button>
+                </div>
               </>
             ) : (
               <button

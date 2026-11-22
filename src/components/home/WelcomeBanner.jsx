@@ -1,7 +1,22 @@
 import React from 'react';
 import { Globe } from 'lucide-react';
 
-export const WelcomeBanner = ({ t, language, toggleLanguage }) => {
+export const WelcomeBanner = ({ t, language, toggleLanguage, activeProject }) => {
+  const isRtl = language === 'ar';
+  const projectName = isRtl
+    ? (activeProject?.companyNameAr || activeProject?.companyName)
+    : (activeProject?.companyName || activeProject?.companyNameAr);
+
+  const title = projectName
+    ? (isRtl ? `مرحباً، ${projectName}` : `Welcome, ${projectName}`)
+    : t.welcomeTitle;
+
+  const subtitle = projectName
+    ? (isRtl
+        ? `نظرة عامة على حساب ${projectName} مع جسور الإمداد`
+        : `An overview of ${projectName} account with Jussur Emdad`)
+    : t.welcomeSubtitle;
+
   return (
     <div className="bg-[#0f172a] rounded-2xl md:rounded-[20px] p-6 sm:p-8 text-white relative shadow-sm border border-slate-800/60 overflow-hidden">
       {/* Subtle background glow effect */}
@@ -11,10 +26,10 @@ export const WelcomeBanner = ({ t, language, toggleLanguage }) => {
         {/* Welcome text */}
         <div className="space-y-1.5 max-w-3xl">
           <h1 className="text-2xl md:text-[28px] font-bold tracking-tight text-white">
-            {t.welcomeTitle}
+            {title}
           </h1>
           <p className="text-slate-300 text-sm md:text-[15px] font-normal leading-relaxed">
-            {t.welcomeSubtitle}
+            {subtitle}
           </p>
         </div>
 

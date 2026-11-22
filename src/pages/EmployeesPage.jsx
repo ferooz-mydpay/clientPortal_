@@ -2,12 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { EmployeeDetailView } from './EmployeeDetailView';
 
 import { 
-  Plus, 
-  RotateCw, 
-  Share2, 
-  BarChart3, 
-  FileSpreadsheet, 
-  MoreHorizontal, 
   Search, 
   ArrowUpDown, 
   ChevronDown, 
@@ -21,7 +15,6 @@ export const EmployeesPage = ({ t, language, toggleLanguage }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [activeEmployeeDetail, setActiveEmployeeDetail] = useState(null);
-  const [isNewEmployeeModalOpen, setIsNewEmployeeModalOpen] = useState(false);
 
   // Initial employees dataset matching Screenshot 2
   const [employeesData] = useState([
@@ -357,9 +350,9 @@ export const EmployeesPage = ({ t, language, toggleLanguage }) => {
 
   return (
     <div className="space-y-4 animate-in fade-in duration-200">
-      {/* Top Controls Toolbar matching Screenshot 2 */}
-      <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 flex flex-wrap items-center justify-between gap-3 shadow-xs">
-        {/* Left: Quick Search */}
+      {/* Top Controls Toolbar */}
+      <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3 shadow-xs">
+        {/* Quick Search */}
         <div className="relative w-full sm:w-72">
           <Search className="w-4 h-4 text-slate-400 absolute ltr:left-3 rtl:right-3 top-1/2 -translate-y-1/2" />
           <input
@@ -369,59 +362,6 @@ export const EmployeesPage = ({ t, language, toggleLanguage }) => {
             placeholder={language === 'ar' ? 'بحث عن موظف بالاسم أو الرقم...' : 'Search by name or number...'}
             className="w-full bg-slate-50 border border-slate-200 rounded-lg ltr:pl-9 rtl:pr-9 pr-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#00a3e0] focus:border-[#00a3e0]"
           />
-        </div>
-
-        {/* Right: Action Buttons matching Screenshot 2 */}
-        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs font-medium text-slate-700">
-          <button
-            onClick={() => setIsNewEmployeeModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>{t.btnNewEmployee || 'New Employee'}</span>
-          </button>
-
-          <button
-            onClick={() => alert('Refreshed')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-          >
-            <RotateCw className="w-3.5 h-3.5" />
-            <span>{t.btnRefresh || 'Refresh'}</span>
-          </button>
-
-          <button
-            onClick={() => alert('Workflow flow')}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-          >
-            <Share2 className="w-3.5 h-3.5" />
-            <span>{t.btnFlow || 'Flow'}</span>
-            <ChevronDown className="w-3 h-3 text-slate-400" />
-          </button>
-
-          <button
-            onClick={() => alert('Run report')}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-          >
-            <BarChart3 className="w-3.5 h-3.5" />
-            <span>{t.btnRunReport || 'Run Report'}</span>
-            <ChevronDown className="w-3 h-3 text-slate-400" />
-          </button>
-
-          <button
-            onClick={() => alert('Exporting Excel template...')}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-          >
-            <FileSpreadsheet className="w-3.5 h-3.5" />
-            <span>{t.btnExcelTemplates || 'Excel Templates'}</span>
-            <ChevronDown className="w-3 h-3 text-slate-400" />
-          </button>
-
-          <button 
-            onClick={() => alert('More options')}
-            className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors cursor-pointer"
-          >
-            <MoreHorizontal className="w-4 h-4" />
-          </button>
         </div>
       </div>
 
@@ -566,61 +506,6 @@ export const EmployeesPage = ({ t, language, toggleLanguage }) => {
           </div>
         </div>
       </div>
-
-      {/* New Employee Modal */}
-      {isNewEmployeeModalOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="relative bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-100 p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-              <h3 className="text-base font-bold text-slate-900">Add New Employee</h3>
-              <button
-                onClick={() => setIsNewEmployeeModalOpen(false)}
-                className="p-1 rounded text-slate-400 hover:text-slate-700"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <form onSubmit={(e) => { e.preventDefault(); alert('Employee added successfully!'); setIsNewEmployeeModalOpen(false); }} className="space-y-3 text-xs">
-              <div>
-                <label className="block font-semibold mb-1">Full Name *</label>
-                <input required type="text" placeholder="e.g. John Doe" className="w-full border border-slate-300 rounded p-2 text-xs" />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Employee Number *</label>
-                <input required type="text" placeholder="e.g. 1021045" className="w-full border border-slate-300 rounded p-2 text-xs" />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold mb-1">Gender</label>
-                  <select className="w-full border border-slate-300 rounded p-2 text-xs">
-                    <option>Male</option>
-                    <option>Female</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block font-semibold mb-1">Mobile</label>
-                  <input type="text" placeholder="05XXXXXXXX" className="w-full border border-slate-300 rounded p-2 text-xs" />
-                </div>
-              </div>
-              <div className="pt-3 flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsNewEmployeeModalOpen(false)}
-                  className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-[#00a3e0] text-white rounded-lg font-medium"
-                >
-                  Save Employee
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
