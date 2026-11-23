@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { translations } from './i18n/translations';
-import { TopBanner } from './components/layout/TopBanner';
 import { Navbar } from './components/layout/Navbar';
 import { WelcomeBanner } from './components/home/WelcomeBanner';
 import { StatCards } from './components/home/StatCards';
@@ -441,10 +440,7 @@ export default function App() {
 
   return (
     <div className={`min-h-screen flex flex-col ${!isAuthenticated && activeTab !== 'chat' ? 'bg-slate-50' : 'bg-[#f8fafc]'} ${language === 'ar' ? 'font-arabic' : 'font-sans'}`}>
-      {/* 1. Top Privacy Notice Banner */}
-      <TopBanner t={t} signedInUser={isAuthenticated ? t.userName : "CRMJSVC1"} />
-
-      {/* 2. Main Navigation Bar */}
+      {/* Navigation Bar */}
       <Navbar
         t={t}
         language={language}
